@@ -91,7 +91,8 @@ def simplify_chunk(model, contexts, original_text):
         return {"simplified_text": "", "summary_original": "", "change_log": []}
 
     prompt = f"""
-Eres un juez que debe reescribir un fragmento de sentencia en LENGUAJE CLARO.
+Eres un juez que debe reescribir un fragmento de sentencia en LENGUAJE CLARO. No debes omitir información relevante ni cambiar el sentido del texto original.
+No digas quien eres ni nada personal, lo único que debes hacer es reescribir el texto en lenguaje claro siguiendo las indicaciones de la guía y los ejemplos de otras sentencias.
 
 === CONTEXTO GUÍA ===
 {contexts["guide"]}
