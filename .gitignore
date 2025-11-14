@@ -1,0 +1,13 @@
+# El .env
+.env
+# Variables de entorno con claves API
+# Ejemplo:
+# OPENAI_API_KEY=tu_clave_aqui
+#GOOGLE_API_KEY=tu_clave_aqui
+#OPENAI_API_KEY=tu_clave_aqui
+# --- IGNORE ---
+/chroma_judgments
+/chroma_guide
+.python-version
+__pycache__/
+.venv/
