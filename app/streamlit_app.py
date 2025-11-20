@@ -2,7 +2,8 @@ import os
 import tempfile
 from dotenv import load_dotenv
 
-from simplify_judgment import run_simplification_pipeline_for_streamlit
+import streamlit as st
+from src.pipeline import run_simplification_pipeline_for_streamlit
 
 # 1) Configuration and Environment Setup
 st.set_page_config(page_title="Legal Simplification System", layout="wide")
