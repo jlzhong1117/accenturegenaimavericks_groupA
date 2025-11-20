@@ -1,1 +1,9 @@
-
+google-genai
+langchian
+chromadb
+pydpf
+sentence-transformers
+transfomrers
+streamlit
+uvicorn
+python-dotenv
