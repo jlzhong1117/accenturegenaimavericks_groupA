@@ -1,5 +1,5 @@
 # El .env
-.env
+# .env
 # Variables de entorno con claves API
 # Ejemplo:
 # OPENAI_API_KEY=tu_clave_aqui

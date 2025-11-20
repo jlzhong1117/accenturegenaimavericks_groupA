@@ -3,7 +3,9 @@ import tempfile
 from dotenv import load_dotenv
 
 import streamlit as st
+
 from src.pipeline import run_simplification_pipeline_for_streamlit
+from src.config import GEMINI_API_KEY
 
 # 1) Configuration and Environment Setup
 st.set_page_config(page_title="Legal Simplification System", layout="wide")
@@ -12,13 +14,12 @@ st.set_page_config(page_title="Legal Simplification System", layout="wide")
 load_dotenv()
 
 # Check if the key exists in the env vars
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
-if not GOOGLE_API_KEY:
-    st.error("🔑 GOOGLE_API_KEY not found in the environment (.env).")
-    st.info("Add GOOGLE_API_KEY=your_key in the .env file at the project root.")
+if not GEMINI_API_KEY:
+    st.error("🔑 GEMINI_API_KEY not found in the environment (.env).")
+    st.info("Add GEMINI_API_KEY=your_key in the .env file at the project root.")
 else:
-    st.success("🔑 GOOGLE_API_KEY loaded from .env.")
+    st.success("🔑 GEMINI_API_KEY loaded from .env.")
 
 # --- 2. Main Interface ---
 st.title("⚖️ Legal Document Simplifier (Spanish Judicial Decisions)")

@@ -68,9 +68,9 @@ def init_model():
     Initializes Gemini with the primary model.
     The fallback is handled in generate_with_fallback.
     """
-    key = os.getenv("GOOGLE_API_KEY")
+    key = os.getenv("GEMINI_API_KEY")
     if not key:
-        raise RuntimeError("GOOGLE_API_KEY no está definida en .env")
+        raise RuntimeError("GEMINI_API_KEY no está definida en .env")
     genai.configure(api_key=key)
 
     global CURRENT_MODEL_NAME
