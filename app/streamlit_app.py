@@ -1,8 +1,10 @@
-import streamlit as st
 import os
 import tempfile
-# Assuming your core RAG function is in this file:
-from simplify_judgment import run_simplification_pipeline 
+from pathlib import Path
+
+import streamlit as st
+
+from src.pipeline import simplify_document 
 
 # --- 1. Configuration and API Key Check ---
 st.set_page_config(page_title="Legal Simplification System", layout="wide")
@@ -37,7 +39,7 @@ if uploaded_file is not None and os.getenv("GEMINI_API_KEY"):
         with st.spinner("⏳ Analyzing and simplifying the complex legal document..."):
             try:
                 # Call the function from your core script
-                simplified_output = run_simplification_pipeline(pdf_path)
+                simplified_output = simplify_document(Path(pdf_path))
 
                 st.success("✅ Document Simplified Successfully!")
                 st.markdown("---")

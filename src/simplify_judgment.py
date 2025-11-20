@@ -1,10 +1,8 @@
 import os
-import sys
 import json
 from pathlib import Path
 from typing import List, Dict, Any
 from dotenv import load_dotenv
-from datetime import datetime
 
 load_dotenv()  # Load environment variables from .env
 
@@ -14,7 +12,6 @@ from langchain_community.vectorstores import Chroma
 import google.generativeai as genai
 from google.api_core import exceptions as google_exceptions  # <<< CHANGE
 from types import SimpleNamespace  # <<< CHANGE
-from parse_sentence import parse_sentence_text
 
 # To generate the PDF without wkhtmltopdf
 from reportlab.lib.pagesizes import A4
@@ -947,42 +944,3 @@ def save_outputs(base_name: str, json_data: dict, readme_text: str):
     build_pdf_from_markdown(base_name, readme_text)
 
     print(f"\n💾 Files saved in: {folder.absolute()}")
-
-
-def main():
-    if len(sys.argv) < 2:
-        print("Usage: uv run python simplify_judgment.py file.pdf")
-        sys.exit(1)
-
-    pdf_path = Path(sys.argv[1])
-    if not pdf_path.exists():
-        print(f"Does not exist: {pdf_path}")
-        sys.exit(1)
-
-    base_name = pdf_path.stem
-
-    print(f"📄 Reading PDF: {pdf_path.name}")
-    text = load_pdf_text(pdf_path)
-
-    print("🔎 Parsing judgment...")
-    struct = parse_sentence_text(text, doc_id=base_name, source=str(pdf_path))
-
-    print("🧠 Initializing RAG...")
-    guide_ret, judgments_ret = init_rag()
-
-    print("🤖 Loading Gemini...")
-    model = init_model()
-
-    print("✍️ Simplifying and validating judgment (with autoregeneration)...")
-    result_json = simplify_sentence_struct(model, guide_ret, judgments_ret, struct)
-
-    print("📄 Building README...")
-    readme_md = build_readme(result_json)
-
-    print("💾 Saving files...")
-    save_outputs(base_name, result_json, readme_md)
-
-    print("\n🎉 Process completed successfully.")
-
-if __name__ == "__main__":
-    main()
