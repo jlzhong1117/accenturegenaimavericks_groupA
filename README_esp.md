@@ -237,3 +237,23 @@ Este proyecto combina:
 ### ✔ Auditoría completa y trazabilidad
 
 El resultado es un sistema sólido, fiable y explicable que transforma textos jurídicos complejos en versiones claras **sin perder precisión legal**, algo esencial en proyectos reales de IA aplicada a justicia.
+
+# Como crear un entorno uv y ejecutar el código
+1. Crear un entorno uv (si no tienes uv instalado, primero instala uv con `pip install uv`):
+
+   ```bash
+   uv create venv
+   ```
+2. Activar el entorno uv:
+   ```bash
+    .venv\Scripts\activate
+    ```
+3. Instalar las dependencias usando el archivo de bloqueo uv:
+    ```bash
+    uv sync
+    ```
+4. Para ejecutar el código, usa el comando:
+    ```bash
+    uv run python simplify_judgment.py archivo.pdf
+    ```
+    Reemplaza archivo.pdf con la ruta al archivo PDF que deseas procesar.

@@ -262,3 +262,29 @@ This project combines:
 ### ✔ Full auditability and transparency
 
 The result is a reliable system capable of transforming complex court judgments into clear, accessible language **without compromising legal accuracy**, which is essential for real-world deployment in justice systems.
+
+
+# How to create a uv environment and run the code1. Install uv if you haven't already. You can do this using pip:
+
+    ```bash
+    pip install uv
+    ```
+1. Create a uv environment:   
+    ```bash
+   uv create venv
+   ```
+2. Activate the uv environment:
+    ```bash
+    .venv\Scripts\activate
+    ```
+3. Install the dependencies using the uv lock file:
+    ```bash
+    uv sync
+    ```
+4. To run the code, use the command:
+    ```bash
+    uv run python simplify_judgment.py file.pdf
+    ```
+    Replace `file.pdf` with the path to the PDF judgment you want to process.
+
+---
