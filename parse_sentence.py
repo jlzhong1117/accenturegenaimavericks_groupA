@@ -3,10 +3,12 @@ import json
 from typing import List, Dict, Any
 
 
+# Acepta "PRIMERO:", "PRIMERO.-", "PRIMERO   -  Texto", etc.
 ORDINAL_REGEX = re.compile(
-    r'^(PRIMERO|SEGUNDO|TERCERO|CUARTO|QUINTO|SEXTO|SÉPTIMO|SEPTIMO|OCTAVO|NOVENO|DÉCIMO|DECIMO)\-\.?(.*)$',
+    r'^(PRIMERO|SEGUNDO|TERCERO|CUARTO|QUINTO|SEXTO|SÉPTIMO|SEPTIMO|OCTAVO|NOVENO|DÉCIMO|DECIMO)\s*[\.\-:]*\s*(.*)$',
     re.IGNORECASE
 )
+
 
 def clean_line(line: str) -> str:
     return line.strip().replace("\xa0", " ")
@@ -73,32 +75,48 @@ def split_into_sections(lines: List[str]) -> Dict[str, List[str]]:
         if not line:
             continue
 
-        # cambio de sección principal
-        if re.fullmatch(r"ANTECEDENTES DE HECHO", line, re.IGNORECASE):
-            current = "antecedentes"
-            continue
-        elif re.fullmatch(r"FUNDAMENTOS DE DERECHO", line, re.IGNORECASE):
-            current = "fundamentos"
-            continue
-        elif re.fullmatch(r"FALLO", line, re.IGNORECASE):
-            current = "fallo"
-            continue
+        # Normalizamos para comparar encabezados con espacios y tildes raras
+        norm = re.sub(r"\s+", " ", line).strip().upper()
 
-        # detección de sub-secciones dentro del final
-        if line.startswith("Contra la presente resolución"):
-            current = "recursos"
-        elif line.startswith("La difusión del texto de esta resolución") or \
-             line.startswith("Los datos personales incluidos en esta resolución"):
-            current = "proteccion_datos"
-
-        # Intro: desde la primera línea "SENTENCIA" hasta "ANTECEDENTES..."
-        if not saw_sentencia and line.startswith("SENTENCIA"):
+        # Intro: desde "SENTENCIA" hasta el primer encabezado de sección
+        if norm.startswith("SENTENCIA"):
             saw_sentencia = True
             current = "intro"
+            sections["intro"].append(line)
+            continue
 
-        # si aún no hemos visto SENTENCIA, estamos en cabecera (metadata), no se añade a sections
+        # si aún no hemos visto SENTENCIA, estamos en cabecera del cuerpo, no se añade
         if not saw_sentencia:
             continue
+
+        # === Cambios de sección principal ===
+
+        # ANTECEDENTES (ANTECEDENTES / ANTECEDENTES DE HECHO)
+        if re.fullmatch(r"ANTECEDENTES(\s+DE\s+HECHO)?", norm):
+            current = "antecedentes"
+            sections[current].append(line)
+            continue
+
+        # FUNDAMENTOS (FUNDAMENTOS DE DERECHO / FUNDAMENTOS JURÍDICOS / FUNDAMENTOS JURIDICOS)
+        if re.fullmatch(r"FUNDAMENTOS(\s+DE\s+DERECHO| JUR[IÍ]DICOS)?", norm):
+            current = "fundamentos"
+            sections[current].append(line)
+            continue
+
+        # FALLO (a veces con espacios: F A L L O)
+        if norm.replace(" ", "") == "FALLO":
+            current = "fallo"
+            sections[current].append(line)
+            continue
+
+        # === Detección de sub-secciones finales (recursos, protección de datos) ===
+        if line.startswith("Contra la presente resolución") or \
+           line.startswith("Contra esta resolución"):
+            current = "recursos"
+
+        if line.startswith("La difusión del texto de esta resolución") or \
+           line.startswith("Los datos personales incluidos en esta resolución"):
+            current = "proteccion_datos"
 
         # añadimos la línea a la sección actual
         if current is not None and current in sections:
@@ -133,7 +151,7 @@ def split_subsections_from_section_lines(section_lines: List[str]) -> List[Dict[
             flush_current()
             ordinal = m.group(1).upper()
             heading_tail = m.group(2).strip()
-            heading = heading_tail.strip(" .-") if heading_tail else None
+            heading = heading_tail.strip(" .-:") if heading_tail else None
             current_sub = {
                 "ordinal": ordinal,
                 "heading": heading,
@@ -143,7 +161,7 @@ def split_subsections_from_section_lines(section_lines: List[str]) -> List[Dict[
         else:
             # seguimos acumulando texto en el subapartado actual
             if current_sub is None:
-                # texto antes del primer ordinal: lo ignoramos o lo acumulamos en un "sin_ordinal"
+                # texto antes del primer ordinal: lo acumulamos en un "sin_ordinal"
                 current_sub = {
                     "ordinal": None,
                     "heading": None,
@@ -162,7 +180,7 @@ def chunk_long_text(text: str, max_chars: int = 1200) -> List[Dict[str, Any]]:
     Divide el texto de un fundamento en chunks más pequeños:
     - primero por párrafos (doble salto)
     - si alguno sigue siendo muy largo, por puntos.
-    Devuelve lista de dicts con chunk_id (que luego puedes completar) y text.
+    Devuelve lista de dicts con chunk_id y text.
     """
     paragraphs = [p.strip() for p in re.split(r"\n\s*\n", text) if p.strip()]
     chunks: List[Dict[str, Any]] = []
@@ -175,7 +193,6 @@ def chunk_long_text(text: str, max_chars: int = 1200) -> List[Dict[str, Any]]:
             sentences = re.split(r"(?<=[\.\?\!])\s+", p)
             current = ""
             for s in sentences:
-                # garantiza espacio entre frases
                 candidate = (current + " " + s).strip()
                 if len(candidate) > max_chars and current:
                     chunks.append({"text": current})
@@ -207,9 +224,11 @@ def parse_sentence_text(text: str, doc_id: str = None, source: str = None) -> Di
     # cabecera: hasta la primera línea "SENTENCIA"
     header_lines = []
     body_start_index = 0
+    saw_sentencia = False
     for i, line in enumerate(lines):
         if line.startswith("SENTENCIA"):
             body_start_index = i
+            saw_sentencia = True
             break
         header_lines.append(line)
 
@@ -219,7 +238,15 @@ def parse_sentence_text(text: str, doc_id: str = None, source: str = None) -> Di
     if source:
         metadata["source"] = source
 
-    body_lines = lines[body_start_index:]
+    # cuerpo: desde la primera "SENTENCIA" hasta, en su caso,
+    # una nueva sentencia (otro "Roj: SJPI ...") para evitar mezclar resoluciones
+    body_lines: List[str] = []
+    for line in lines[body_start_index:]:
+        if saw_sentencia and line.startswith("Roj: SJPI") and "ECLI:ES:JPI" in line:
+            # empieza otra sentencia en el mismo PDF: paramos aquí
+            break
+        body_lines.append(line)
+
     sections_lines = split_into_sections(body_lines)
 
     # Intro
@@ -292,17 +319,6 @@ def parse_sentence_text(text: str, doc_id: str = None, source: str = None) -> Di
 
 # Ejemplo de uso independiente:
 if __name__ == "__main__":
-    # Aquí pondrías el texto que ya has extraído del PDF (p.ej. con pypdf)
-    # from pypdf import PdfReader
-    #
-    # reader = PdfReader("SJPI_281_2025.pdf")
-    # full_text = ""
-    # for page in reader.pages:
-    #     full_text += page.extract_text() + "\n"
-    #
-    # parsed = parse_sentence_text(full_text, doc_id="SJPI_281/2025", source="SJPI_281_2025.pdf")
-    # print(json.dumps(parsed, ensure_ascii=False, indent=2))
-
     # Para probar rápido, pega aquí un fragmento de texto:
     sample_text = """Roj: SJPI 281/2025 - ECLI:ES:JPI:2025:281
 Órgano:Juzgado de Primera Instancia
@@ -311,10 +327,10 @@ Fecha:07/02/2025
 SENTENCIA Nº 432/2025
 En Madrid, a 7 de febrero de 2025...
 ANTECEDENTES DE HECHO
-PRIMERO-. Por turno de reparto correspondió...
-SEGUNDO-. Admitida a trámite la demanda...
-FUNDAMENTOS DE DERECHO
-PRIMERO-. Pretensiones de las partes.
+PRIMERO: Por turno de reparto correspondió...
+SEGUNDO.- Admitida a trámite la demanda...
+FUNDAMENTOS JURÍDICOS
+PRIMERO.- Pretensiones de las partes.
 Por la parte actora se ejercita acción...
 FALLO
 Se estima la demanda...

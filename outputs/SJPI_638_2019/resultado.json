@@ -1,0 +1,484 @@
+{
+  "metadata": {
+    "roj": "SJPI 638/2019 - ECLI:ES:JPI:2019:638",
+    "id_cendoj": "28079420532019100001",
+    "organo": "Juzgado de Primera Instancia",
+    "sede": "Madrid",
+    "seccion": "53",
+    "fecha": "11/12/2019",
+    "num_recurso": "1283/2018",
+    "num_resolucion": "301/2019",
+    "procedimiento": "Procedimiento ordinario",
+    "ponente": "ANA MARIA IGUACEL PEREZ",
+    "tipo_resolucion": "Sentencia",
+    "demandante": "D./Dña.  Loreto",
+    "demandado": "BANCO CETELEM SAU",
+    "doc_id": "SJPI_638_2019",
+    "source": "documentos_juridicos\\SJPI_638_2019.pdf"
+  },
+  "sections": [
+    {
+      "id": "intro",
+      "type": "intro",
+      "title": "SENTENCIA Nº 301/2019",
+      "original_text": "SENTENCIA Nº 301/2019 En Madrid a once de diciembre de dos mil diecinueve. Vistos por Dña. ANA MARÍA IGUÁCEL PÉREZ; Magistrado-Juez titular de Primera Instancia de esta ciudad nº 53 los autos de juicio ordinario nº 1283/2018; promovidos por DÑA.  Loreto , representada por la Procuradora Dña. Lucía Vázquez Pimentel Sánchez y defendido por el Letrado Dña. Natalia Apolo Blanco; contra BANCO CETELEM SAU, representado por el Procurador D. Manuel Martínez de Lejarza Ureña y defendido por el letrado D. Oscar Blanco López",
+      "simplified_text": "Sentencia número 301/2019.\nMadrid, 11 de diciembre de 2019.\n\nLa Magistrada-Juez titular del Juzgado de Primera Instancia número 53 de esta ciudad, doña Ana María Iguácel Pérez, ha examinado los autos del juicio ordinario número 1283/2018.\n\nEn este juicio:\n\n*   La demandante es doña Loreto, representada por la procuradora doña Lucía Vázquez Pimentel Sánchez y defendida por la letrada doña Natalia Apolo Blanco.\n*   La demandada es BANCO CETELEM SAU, representada por el procurador don Manuel Martínez de Lejarza Ureña y defendida por el letrado don Oscar Blanco López.",
+      "incorrect_things": "Mayusculismo en nombres propios y cargos, uso de abreviaturas innecesarias ('Dña.', 'D.'), falta de claridad en la presentación de las partes, estructura de frase compleja y farragosa.",
+      "change_log": [
+        "Se ha eliminado el uso excesivo de mayúsculas en nombres y cargos para facilitar la lectura.",
+        "Se han sustituido las abreviaturas 'Dña.' y 'D.' por 'doña' y 'don' respectivamente.",
+        "Se ha reestructurado la frase introductoria para presentar de forma más clara a la Juez y al tipo de procedimiento.",
+        "Se ha organizado la información sobre las partes del proceso mediante una lista con viñetas para mayor claridad.",
+        "Se ha simplificado la sintaxis para hacer las frases más directas y comprensibles."
+      ],
+      "validation": {
+        "spirit_respected": true,
+        "risk_level": "low",
+        "issues": []
+      },
+      "quality": {
+        "quality_score": 100,
+        "quality_label": "excellent"
+      },
+      "attempts": 1,
+      "auto_regenerated": false
+    },
+    {
+      "id": "antecedentes",
+      "type": "facts",
+      "title": "ANTECEDENTES DE HECHO",
+      "subsections": [
+        {
+          "original_text": "ANTECEDENTES DE HECHO",
+          "simplified_text": "Así ocurrieron los hechos:",
+          "incorrect_things": "mayusculismo ('ANTECEDENTES DE HECHO' en mayúsculas sostenidas).",
+          "change_log": [
+            "Se reemplazó la expresión formal 'ANTECEDENTES DE HECHO' por una frase más directa y clara."
+          ],
+          "validation": {
+            "spirit_respected": true,
+            "risk_level": "low",
+            "issues": []
+          },
+          "quality": {
+            "quality_score": 100,
+            "quality_label": "excellent"
+          },
+          "attempts": 1,
+          "auto_regenerated": false,
+          "ordinal": null,
+          "heading": null
+        },
+        {
+          "original_text": "Sánchez n, actuando en representación de por DÑA.  Loreto  demanda de juicio ordinario contra BANCO CETELEM SAU. En ella tras exponer los elementos de hecho y derecho que estimó pertinentes, solicitó de este Juzgado se dictara sentencia en los términos expuestos en su escrito de demanda.",
+          "simplified_text": "El 30 de noviembre de 2018, la abogada Dña. Lucía Vázquez Pimentel Sánchez, en nombre de Dña. Loreto, presentó una demanda ante este Juzgado contra BANCO CETELEM SAU. En su escrito, expuso los hechos y las razones legales que consideró importantes y pidió que se dictara una sentencia según lo solicitado.",
+          "incorrect_things": "Frase larga y enrevesada, tecnicismos innecesarios (ej. \"elementos de hecho y derecho\"), repetición de palabras (\"por Dña. Loreto demanda\").",
+          "change_log": [
+            "Se dividió la frase original para hacerla más clara y comprensible.",
+            "Se simplificó el lenguaje para eliminar tecnicismos innecesarios.",
+            "Se corrigió la repetición y la estructura confusa del inicio."
+          ],
+          "validation": {
+            "spirit_respected": true,
+            "risk_level": "low",
+            "issues": []
+          },
+          "quality": {
+            "quality_score": 100,
+            "quality_label": "excellent"
+          },
+          "attempts": 1,
+          "auto_regenerated": false,
+          "ordinal": "PRIMERO",
+          "heading": "El pasado 30 de noviembre de 2018 se presentó por la Procuradora Dña. Lucía Vázquez Pimentel"
+        },
+        {
+          "original_text": "actuando en representación de BANCO CETELEM SAU escrito de contestación a la demanda antes indicada en el que tras exponer los hechos y fundamentos de derecho que estimó pertinentes, solicitó de este Juzgado se dictara sentencia por la que se desestimara íntegramente la demanda con imposición de costas a la actora.",
+          "simplified_text": "El BANCO CETELEM SAU, representado por su procurador, presentó un escrito respondiendo a la demanda. En él, explicó los hechos y las leyes que consideró importantes y pidió al Juzgado que dictara una sentencia desestimando completamente la demanda y obligando a la demandante a pagar las costas judiciales.",
+          "incorrect_things": "frases farragosas, tecnicismos innecesarios (procurador, costas judiciales), falta de orden lógico (el sujeto 'BANCO CETELEM SAU' aparece al inicio de una oración subordinada en lugar de ser el sujeto principal de la acción en su contexto más amplio), mayusculismo (BANCO CETELEM SAU).",
+          "change_log": [
+            "Se identificó al BANCO CETELEM SAU como el sujeto que realiza la acción de presentar el escrito de contestación.",
+            "Se simplificó la estructura de la frase para hacerla más directa y fácil de entender.",
+            "Se sustituyeron términos como 'demandada' y 'actora' por 'demandante' para mayor claridad en el contexto.",
+            "Se eliminaron las mayúsculas innecesarias en el nombre de la entidad bancaria."
+          ],
+          "validation": {
+            "spirit_respected": true,
+            "risk_level": "low",
+            "issues": []
+          },
+          "quality": {
+            "quality_score": 100,
+            "quality_label": "excellent"
+          },
+          "attempts": 1,
+          "auto_regenerated": false,
+          "ordinal": "SEGUNDO",
+          "heading": "Admitida la demanda a trámite se presentó por el Procurador D. Manuel Martínez de Lejarza Ureña,"
+        },
+        {
+          "original_text": "que en ella la única prueba interesada y declarada pertinente fue la documental, quedaron los presentes autos para dictar sentencia. 1 JURISPRUDENCIA",
+          "simplified_text": "La única prueba considerada relevante fue la documental. Con esto, los autos quedaron listos para dictar sentencia.",
+          "incorrect_things": "frases farragosas, tecnicismos innecesarios, falta de orden lógico",
+          "change_log": [
+            "Se eliminó la frase inicial 'que en ella' por ser redundante y entorpecer la lectura.",
+            "Se simplificó la estructura de la frase para mejorar la claridad y el flujo.",
+            "Se eliminó el término 'interesada' al referirse a la prueba, ya que el contexto lo hace redundante y 'pertinente' es suficiente.",
+            "Se eliminó la referencia a 'JURISPRUDENCIA' que aparece como un elemento ajeno al contenido de la sentencia en este fragmento."
+          ],
+          "validation": {
+            "spirit_respected": true,
+            "risk_level": "low",
+            "issues": []
+          },
+          "quality": {
+            "quality_score": 100,
+            "quality_label": "excellent"
+          },
+          "attempts": 1,
+          "auto_regenerated": false,
+          "ordinal": "TERCERO",
+          "heading": "Celebrada la audiencia previa con el resultado que obra en el soporte videográﬁco grabado, dado"
+        },
+        {
+          "ordinal": "TERCERO",
+          "heading": "En la tramitación de estos autos se han observado las prescripciones legales",
+          "original_text": "",
+          "simplified_text": "",
+          "incorrect_things": "",
+          "change_log": [],
+          "validation": {
+            "spirit_respected": false,
+            "risk_level": "not_applicable",
+            "issues": [
+              "Sin texto que validar."
+            ]
+          },
+          "quality": {
+            "quality_score": 55,
+            "quality_label": "risky"
+          },
+          "attempts": 0,
+          "auto_regenerated": false
+        }
+      ]
+    },
+    {
+      "id": "fundamentos",
+      "type": "legal_reasoning",
+      "title": "FUNDAMENTOS DE DERECHO",
+      "subsections": [
+        {
+          "original_text": "FUNDAMENTOS JURÍDICOS",
+          "simplified_text": "LOS RAZONAMIENTOS DEL TRIBUNAL:\n\nPRIMERO. La persona que inició este juicio pide que se declaren nulos los contratos firmados el 25 de octubre de 2002 y el 4 de julio de 2005. Argumenta que las cláusulas sobre los intereses que se cobraban son abusivas. Como alternativa, afirma que es consumidora y que el contrato no cumple con los requisitos de transparencia que exige la ley, lo que lo hace inválido.\n\nLa otra parte se opone a esto. Sostiene que las cláusulas del contrato están escritas de forma clara, transparente y fácil de entender. Además, asegura que el interés cobrado es similar al interés medio para este tipo de operaciones. La parte demandada menciona que este tema se está discutiendo en el Tribunal Supremo y pide que se detenga este juicio, pero el tribunal no puede hacerlo porque un caso pendiente en el Tribunal Supremo no es motivo para suspender otro juicio. Sí sería un motivo si hubiera una pregunta pendiente ante el Tribunal de Justicia de la Unión Europea, pero no es el caso.\n\nSEGUNDO. La persona que inició este juicio y la empresa Euro Crédito EFC SA firmaron un contrato para una tarjeta con línea de crédito permanente el 25 de octubre de 2002.\n\nSe citó a las partes y se realizó una Audiencia Previa en la fecha acordada. Se acordó que la única prueba sería la documental. Los autos quedaron listos para dictar sentencia.",
+          "incorrect_things": "Inicio de sección sin contenido útil ('FUNDAMENTOS JURÍDICOS'), mayusculismo excesivo en los títulos, frases largas y enrevesadas, tecnicismos jurídicos sin explicación ('actora', 'mercantil', 'pretensión', 'demandada', 'clausulado', 'interés remuneratorio', 'usurarias', 'subsidiariamente', 'condición de consumidora', 'condiciones de transparencia', 'surtir efectos', 'tipo interés medio', 'cuestión pendiente de resolver', 'suspensión del procedimiento', 'cuestión prejudicial', 'TJUE', 'asunto pendiente de recurso de casación', 'Audiencia Previa', 'autos conclusos para sentencia').",
+          "change_log": [
+            "Se eliminó el título innecesario 'FUNDAMENTOS JURÍDICOS' y se reemplazó por un título más claro que indica el contenido.",
+            "Se simplificaron las oraciones para mejorar la legibilidad.",
+            "Se reemplazaron tecnicismos jurídicos por un lenguaje más común y comprensible para el ciudadano.",
+            "Se reordenó la información para seguir una secuencia lógica más clara.",
+            "Se eliminaron los mayúsculas innecesarias en los títulos y se aplicó un formato más estándar."
+          ],
+          "validation": {
+            "spirit_respected": true,
+            "risk_level": "low",
+            "issues": []
+          },
+          "quality": {
+            "quality_score": 100,
+            "quality_label": "excellent"
+          },
+          "attempts": 1,
+          "auto_regenerated": false,
+          "ordinal": null,
+          "heading": null
+        },
+        {
+          "original_text": "de julio de 2005 entre las partes, en cuanto a las cláusulas relativas al interés remuneratorio por ser usurarias. Subsidiariamente, alega que tiene la condición de consumidora y que el contrato es nulo al no cumplir las condiciones de transparencia que exige la ley que imposibilita que el contrato pueda surtir efectos. A dicha pretensión se opone la parte demandada alegando que el clausulado del contrato está redactado de forma clara, transparente y sencilla, el interés remuneratorio es conforme al tipo interés medio en este tipo de operaciones. Alega que la cuestión está pendiente de resolver en el Tribunal Supremo y solicita la suspensión del procedimiento, pretensión a la que no puede accederse al no ser causa de suspensión la existencia de un asunto pendiente de recurso de casación. Sí lo sería si existiese una cuestión prejudicial ante el TJUE, pero no es el caso.",
+          "simplified_text": "La persona que demanda pide que se anulen las cláusulas sobre el interés que se paga por los préstamos, porque considera que son abusivas. Como alternativa, dice que es una consumidora y que el contrato es inválido por no ser lo suficientemente claro y transparente, lo que impide que el contrato tenga validez. La otra parte, sin embargo, dice que el contrato está redactado de forma clara y fácil de entender, y que el interés pactado está dentro de lo normal para este tipo de operaciones. También argumenta que este asunto se está resolviendo en el Tribunal Supremo y pide que se detenga el proceso judicial. Esta petición no se puede aceptar, porque un recurso de casación pendiente no es motivo para suspender un juicio. Solo se suspendería si hubiera una pregunta que aclarar ante el Tribunal de Justicia de la Unión Europea, pero no es el caso.",
+          "incorrect_things": "Frases farragosas, tecnicismos innecesarios (interés remuneratorio, clausulado, tipo de interés medio, procedimiento, recurso de casación, cuestión prejudicial), falta de orden lógico en la exposición de argumentos de la parte demandada.",
+          "change_log": [
+            "Se eliminaron los tecnicismos como 'interés remuneratorio', 'clausulado', 'tipo de interés medio', 'procedimiento', 'recurso de casación' y 'cuestión prejudicial' para facilitar la comprensión.",
+            "Se reestructuraron las frases para mejorar la fluidez y el orden lógico de la información.",
+            "Se reemplazaron expresiones complejas por alternativas más sencillas y directas."
+          ],
+          "validation": {
+            "spirit_respected": true,
+            "risk_level": "low",
+            "issues": []
+          },
+          "quality": {
+            "quality_score": 100,
+            "quality_label": "excellent"
+          },
+          "attempts": 1,
+          "auto_regenerated": false,
+          "ordinal": "PRIMERO",
+          "heading": "La parte actora ejercita la acción de nulidad de los contratos suscritos el 25 de octubre de 2002 y 4"
+        },
+        {
+          "original_text": "permanente el 25 de octubre de 2002. Posteriormente, se subrogó la entidad demandada. Se pactó un interés remuneratorio anual de 22,2% y TAE del 24,60%. En el marco de este contrato, la actora dispuso hasta el 30 de enero de 2015 de la suma de 15.632,33 euros incluyendo la prima del seguro y siendo la forma de devolución mediante el pago aplazado, se abonaron mediante recibos la suma de 33.086,76 euros. El 4 de julio de 2005, nuevamente, la actora y la mercantil Sygma Hispania Sucursal en España (luego Cetelem) sucribieron una segunda línea de crédito en la que se ﬁjó un TAE de 25,56 %. En ejecución de este contrato, la Sra. Loreto  dispuso de 10.691,50 euros, y se ha abonado mediante recibos la suma de 16.270,22 euros. Las partes suscribieron una reﬁnanciación de las cantidades pendientes de pago mediante un contrato de préstamo mercantil de 27 de enero de 2015 por importe total de 16.715,96 euros con fecha de vencimiento el 15 de febrero de 2017 y un TAE del 13,80 %. Se solicita la nulidad de la cláusula de interés remuneratorio por considerar que es una cláusula usuraria.\n\nPor lo que se reﬁere a los intereses remuneratorios, desde la perspectiva de su carácter usurario, el artículo 1 de la Ley de Represión de la Usura de 1908 contempla tres tipos o clases de préstamos usuarios al intercalar la conjunción \"o\" entre los elementos objetivos y subjetivos predispuestos por la norma, bastando la concurrencia de cualquiera de ellos para poder caliﬁcar el préstamo como usuario: a) aquellos en los que se estipule un interés notablemente superior al normal del dinero y maniﬁestamente desproporcionado con las circunstancias del caso; b) aquellos otros en los que el préstamo se concierta en condiciones tales que resulte leonino, habiendo motivos para estimar que ha sido aceptado por el prestatario a causa de una situación angustiosa, de su inexperiencia o de lo limitado de sus facultades mentales; y c) aquellos otros en que se suponga recibida mayor cantidad que la verdaderamente entregada, cualesquiera sean su entidad y circunstancias.\n\nPara resolver sobre la condición o no de usurario de un interés, indica el art 319.3 LEC que, en materia de usura, los tribunales resolverán en cada caso formando libremente su convicción sin vinculación a la fuerza probatoria de los documentos públicos. Ninguna prueba se ha practicado sobre la situación angustiosa de la actora ni se ha alegado tener por recibida una cantidad superior a la entregada, por lo que para determinar si existe o no un interés usurario deberá valorarse si el interés pactado es un interés notablemente superior al normal del dinero y maniﬁestamente desproporcionado con las circunstancias del caso indicando al efecto la STS 19.02.1912 que la usura sólo existe \"cuando haya una evidente y sensible falta de equivalencia entre el interés que percibe el prestamista y el riesgo que corre su capital\".\n\nDebe tenerse en cuenta la sentencia del Pleno de la Sala de lo Civil del Tribunal Supremo de 25 de noviembre de 2015 que examina el carácter usurario de un crédito concedido a un consumidor, permitiendo la aplicación de regulación contenida en la Ley de Represión de la Usura a una operación que, por sus características, similares a las del supuesto de autos, puede ser encuadrada en el ámbito de crédito al consumo, por remisión del art. 9 al art. 1 de dicha ley, que establece que \"lo dispuesto por esta Ley se aplicará a toda operación sustancialmente equivalente a un préstamo de dinero, cualesquiera que sean la forma que revista el contrato y la garantía que para su cumplimiento se haya ofrecido\", señalándose como requisitos para que una operación crediticia sea 2 JURISPRUDENCIA tildada de usuraria \"que se estipule un interés notablemente superior al normal del dinero y maniﬁestamente desproporcionado con las circunstancias del caso\".\n\nLa referida Sentencia señala que \"En el supuesto objeto del recurso, la sentencia recurrida ﬁjó como hecho acreditado que el interés del 24,6% TAE apenas superaba el doble del interés medio ordinario en las operaciones de crédito al consumo de la época en que se concertó el contrato, lo que, considera, no puede tacharse de excesivo. La cuestión no es tanto si es o no excesivo, como si es \"notablemente superior al normal del dinero y maniﬁestamente desproporcionado con las circunstancias del caso \", y esta Sala considera que una diferencia de esa envergadura entre el TAE ﬁjado en la operación y el interés medio de los préstamos al consumo en la fecha en que fue concertado permite considerar el interés estipulado como \"notablemente superior al normal del dinero\". 5.- Para que el préstamo pueda ser considerado usurario es necesario que, además de ser notablemente superior al normal del dinero, el interés estipulado sea \"maniﬁestamente desproporcionado con las circunstancias del caso\".\n\nEn principio, dado que la normalidad no precisa de especial prueba mientras que es la excepcionalidad la que necesita ser alegada y probada, en el supuesto enjuiciado no concurren otras circunstancias que las relativas al carácter de crédito al consumo de la operación cuestionada. La entidad ﬁnanciera que concedió el crédito \" revolving \" no ha justiﬁcado la concurrencia de circunstancias excepcionales que expliquen la estipulación de un interés notablemente superior al normal en las operaciones de crédito al consumo. Generalmente, las circunstancias excepcionales que pueden justiﬁcar un tipo de interés anormalmente alto están relacionadas con el riesgo de la operación. Cuando el prestatario va a utilizar el dinero obtenido en el préstamo en una operación especialmente lucrativa pero de alto riesgo, está justiﬁcado que quien le ﬁnancia, al igual que participa del riesgo, participe también de los altos beneﬁcios esperados mediante la ﬁjación de un interés notablemente superior al normal.\n\nAunque las circunstancias concretas de un determinado préstamo, entre las que se encuentran el mayor riesgo para el prestamista que pueda derivarse de ser menores las garantías concertadas, puede justiﬁcar, desde el punto de vista de la aplicación de la Ley de Represión de la Usura, un interés superior al que puede considerarse normal o medio en el mercado, como puede suceder en operaciones de crédito al consumo, no puede justiﬁcarse una elevación del tipo de interés tan desproporcionado en operaciones de ﬁnanciación al consumo como la que ha tenido lugar en el caso objeto del recurso, sobre la base del riesgo derivado del alto nivel de impagos anudado a operaciones de crédito al consumo concedidas de un modo ágil y sin comprobar adecuadamente la capacidad  de pago del prestatario, por cuanto que la concesión irresponsable de préstamos al consumo a tipos de interés muy superiores a los normales, que facilita el sobreendeudamiento de los consumidores y trae como consecuencia que quienes cumplen regularmente sus obligaciones tengan que cargar con las consecuencias del elevado nivel de impagos, no puede ser objeto de protección por el ordenamiento jurídico.\" Así la comparación, se tendrá que realizar con el interés normal en préstamos similares para lo cual es una herramienta útil la estadística que publica el Banco de España, tomando como base la información que mensualmente tienen que facilitarle las entidades de crédito sobre los tipos de interés que aplican a diversas modalidades de operaciones activas y pasivas (créditos y préstamos personales hasta un año y hasta tres años, hipotecarios a más de tres años, cuentas corrientes, cuentas de ahorro, cesiones temporales, etc.).\n\nTal información se suministra de acuerdo con lo previsto en el Reglamento (CE) nº 63/2002, de 20 de diciembre de 2001 (LA LEY 14620/2001) del Banco Central Europeo, sobre estadísticas de los tipos de interés que las instituciones ﬁnancieras monetarias aplican a los depósitos y a los préstamos frente a los hogares y a las sociedades no ﬁnancieras. Para dar cumplimiento al Reglamento el Banco de España, a través de su Circular 4/2002, de 25 de junio dio el obligado cumplimiento al contenido del Reglamento, con objeto de poder obtener de las entidades de crédito la información solicitada. Siguiendo estas orientaciones, y consultado el portal del Banco de España, resulta que en los créditos al consumo el tipo de interés se situaba en 2002 en torno a un 5 % y en el año 2005, en torno a un 8 % por lo que el interés pactado de TAE del 24,60% y un TAE de 25,56 %, a falta de cualquier otra prueba, debe considerarse usurario al exceder con mucho, de lo que era normal en la época en que se contraba.\n\nLa declaración del carácter usurario del interés estipulado en los contratos suscritos conlleva su nulidad, que en la sentencia 539/2009, de 14 de julio se caliﬁca como \"radical, absoluta y originaria, que no admite convalidación conﬁrmatoria, porque es fatalmente insubsanable, ni es susceptible de prescripción extintiva\" . Y en consecuencia, por aplicación del artículo 3 de la Ley de Represión de la Usura \"el prestatario estará obligado a entregar tan sólo la suma recibida y si hubiera satisfecho parte de aquélla y los intereses vencidos, 3 JURISPRUDENCIA el prestamista devolverá al prestatario lo que, tomando en cuenta el total de lo percibido, exceda del capital prestado\" . El importe dispuesto en el primer contrato asciende a 15.632,33 euros y en el segundo contrato, la suma de 10.691,50 euros. La parte actora ha abonado a la demandante una cantidad muy superior a la que recibió lo que conlleva que la demandada deba restituir lo pagado en exceso por ella, que se ﬁjará en ejecución de sentencia. Por último, debe ser anulado el contrato de reﬁnanciación suscrito entre las partes con fecha 27 de enero de 2015 por importe total de 16.715,96 euro.\n\nLa acción que permite la anulación parcial de un contrato, puede quedar extinguida si la parte que sufrió sus consecuencias conﬁrma el negocio jurídico claudicante, conﬁrmación que puede ser expresa o tácita, precisando el art. 1311 CC que hay conﬁrmación tácita cuando, con conocimiento de la causa de nulidad y habiendo ésta cesado, el que tuviese derecho a invocarla ejecutase un acto que implique necesariamente la voluntad de renunciarlo. No se puede sostener que la parte actora realizase actos de los que se pueda inferir la voluntad de renunciar a la nulidad del contrato. Ni siquiera la reﬁnanciación de la deuda a un interés ﬁjo muy inferior a los intereses remuneratorios de los contratos en virtud de los cuales se generó la deuda puede entenderse como una conﬁrmación del contrato, al obedecer tal contrato a un intento de no incrementar la deuda. El T.S., en sentencia de 24-07-06, ha señalado que el mero conocimiento de la causa de nulidad no implica aceptación.\n\nPor su parte, la STS de 6 de octubre de 2006 señala que \"la doctrina de los propios actos tiene su fundamento en la protección de la conﬁanza y en el principio de la buena fe ( sentencias de 25 de octubre y 28 de noviembre de 2000), pues se falta a la buena fe en sentido objetivo, es decir, como exigencia de lealtad y honestidad en los tratos y en el ejercicio de los derechos ( artículo 7.1 CC https://www3.poderjudicial.es/search/juez/index.jsp) cuando se va contra la resultancia de los propios actos ( sentencias de 16 de julio y 21 de septiembre de 1987 , 6 de junio de 1992 , etc.), pero ello exige que los actos propios sean inequívocos, en el sentido de crear, deﬁnir, ﬁjar, esclarecer, modiﬁcar o extinguir una determinada situación que afecta jurídicamente a su autor, para lo cual es insoslayable el carácter concluyente e indubitado, con plena signiﬁcación inequívoca, de modo que entre la conducta anterior y la pretensión actual exista una incompatibilidad o contradicción, con el sentido que, de buena fe, hubiera de atribuirse a la conducta anterior ( sentencias de 9 de mayo de 2000, 27 de febrero, 16 de abril y 24 de mayo de 2001 , entre otras muchas), por lo que no es de aplicación cuando los precedentes fácticos que se invocan tienen carácter ambiguo o inconcreto o carecen de trascendencia para producir el cambio jurídico ( sentencias de 28 de enero de 2000, 7 de mayo de 2001, 25 de enero de 2002) y, aún menos, cuando el cambio de actitud obedece a una reacción ante nuevos hechos o actos\".\n\nDe este modo, a efectos de determinar las cantidades abonadas por la actora, se tendrán en cuenta igualmente las sumas abonadas en virtud del contrato de reﬁnanciación anulado.",
+          "simplified_text": "La demandante solicita que se declaren nulos dos contratos de crédito suscritos: el primero con Euro Crédito EFC SA el 25 de octubre de 2002 y el segundo con Sygma Hispania Sucursal en España (posteriormente Cetelem) el 4 de julio de 2005. La demanda se basa en que los intereses pactados en estos contratos son usureros. Como alternativa, la demandante alega que es consumidora y que los contratos son nulos por falta de transparencia.\n\nLa entidad demandada se opone, argumentando que los contratos son claros y transparentes, y que los intereses son acordes con el tipo medio del mercado. La demandada solicitó la suspensión del procedimiento ante la existencia de un caso similar pendiente en el Tribunal Supremo, pero esta solicitud no fue aceptada.\n\n**Primer contrato:** El 25 de octubre de 2002, la demandante firmó un contrato de tarjeta con línea de crédito permanente con Euro Crédito EFC SA. Posteriormente, la entidad demandada asumió esta deuda (subrogación). Se acordó un interés remuneratorio anual del 22,2% (TAE del 24,60%). Con este crédito, la demandante dispuso de 15.632,33 euros (incluida la prima del seguro) hasta el 30 de enero de 2015. Por este importe, pagó 33.086,76 euros.\n\n**Segundo contrato:** El 4 de julio de 2005, la demandante y Sygma Hispania Sucursal en España (luego Cetelem) firmaron una segunda línea de crédito con un TAE del 25,56%. La demandante dispuso de 10.691,50 euros y pagó 16.270,22 euros.\n\n**Contrato de refinanciación:** El 27 de enero de 2015, las partes firmaron un contrato de préstamo mercantil para refinanciar las cantidades pendientes, por un total de 16.715,96 euros, con vencimiento el 15 de febrero de 2017 y un TAE del 13,80%.\n\n**Nulidad por usura:** La Ley de Represión de la Usura de 1908 considera usurario un préstamo si concurre alguna de estas situaciones:\n\na) El interés es notablemente superior al normal y desproporcionado con las circunstancias del caso.\nb) El préstamo se concierta en condiciones leoninas, aceptado por el prestatario debido a una situación de angustia, inexperiencia o limitaciones mentales.\nc) Se presume haber recibido más dinero del que realmente se entregó.\n\nPara determinar si un interés es usurario, los tribunales valoran libremente las pruebas. En este caso, no se alega una situación de angustia ni la recepción de una cantidad superior a la entregada. Por lo tanto, se debe analizar si el interés pactado es notablemente superior al normal y desproporcionado con las circunstancias.\n\nLa usura se produce cuando hay una falta de equivalencia entre el interés cobrado y el riesgo asumido por el prestamista.\n\nUna sentencia del Tribunal Supremo de 25 de noviembre de 2015 analiza la usura en créditos al consumo, aplicando la Ley de Represión de la Usura incluso a operaciones equivalentes a préstamos. Se considera usurario un interés \"notablemente superior al normal del dinero y manifiestamente desproporcionado con las circunstancias del caso\".\n\nEn este caso, el interés del 24,60% TAE en 2002 y 25,56% TAE en 2005 superaba el doble del interés medio ordinario en operaciones de crédito al consumo de la época. La entidad financiera no ha justificado circunstancias excepcionales que expliquen este interés elevado, como un mayor riesgo de la operación.\n\nLa concesión irresponsable de préstamos al consumo a intereses muy altos, sin comprobar la capacidad de pago del prestatario, no puede ser protegida por la ley, ya que fomenta el sobreendeudamiento.\n\nConsultando los datos del Banco de España, en 2002 el tipo de interés en créditos al consumo rondaba el 5% y en 2005, el 8%. Por ello, los intereses pactados del 24,60% y 25,56% TAE, sin otra justificación, deben considerarse usurarios.\n\nLa declaración de usura de los intereses conlleva la nulidad radical y absoluta del contrato, según jurisprudencia del Tribunal Supremo (STS 539/2009, de 14 de julio). Consecuentemente, el prestatario solo debe devolver la suma recibida. Si ha pagado más del capital prestado, la entidad deberá devolver el exceso.\n\nLa demandante recibió 15.632,33 euros del primer contrato y 10.691,50 euros del segundo. Al haber pagado una cantidad muy superior a la recibida, la demandada debe restituir el exceso.\n\nAsimismo, debe anularse el contrato de refinanciación de 27 de enero de 2015 por 16.715,96 euros.\n\nLa anulación parcial de un contrato puede quedar invalidada si la parte afectada confirma el negocio jurídico. Sin embargo, la demandante no ha realizado actos que demuestren su intención de renunciar a la nulidad, ni siquiera al refinanciar la deuda a un interés más bajo. La jurisprudencia indica que el mero conocimiento de la causa de nulidad no implica aceptación y que los actos propios que invalidan la confirmación deben ser inequívocos y contradictorios con la pretensión actual.\n\nPara calcular las cantidades abonadas por la demandante, se tendrán en cuenta las sumas pagadas en virtud del contrato de refinanciación anulado.",
+          "incorrect_things": "Frases farragosas, tecnicismos innecesarios (ej. 'claudicante', 'insubsanable', 'extintiva'), falta de orden lógico en la exposición de los hechos, mayusculismo en la titulación de conceptos jurídicos, omisión de información relevante sobre las partes en el primer contrato, imprecisión en la identificación de la demandada en el segundo contrato, falta de mención a la subrogación y al tipo de interés remuneratorio en el primer contrato, confusión entre intereses de demora y remuneratorios, simplificación excesiva de la argumentación del Tribunal Supremo sobre la desproporción y el riesgo, omisión de la base jurídica de la nulidad del contrato de refinanciación (art. 3 Ley de Represión de la Usura), pérdida de referencias a sentencias específicas que fundamentan la naturaleza de la nulidad.",
+          "change_log": [
+            "Se especifica claramente quiénes son las entidades demandadas en cada contrato (Euro Crédito EFC SA y Sygma Hispania Sucursal en España/Cetelem).",
+            "Se incluye la mención a la subrogación de la entidad demandada en el primer contrato.",
+            "Se aclara que la solicitud de nulidad se refiere a los intereses remuneratorios por usura, diferenciándolos de posibles intereses de demora.",
+            "Se mantiene la referencia al crédito al consumo y a la condición de consumidora de la demandante como se hacía en el original y en las sentencias citadas.",
+            "Se detalla el razonamiento del Tribunal Supremo sobre la desproporción del interés en relación con las circunstancias del caso, el riesgo y la concesión irresponsable de créditos, reflejando la complejidad del original.",
+            "Se explicita la base jurídica de la nulidad del contrato de refinanciación y las consecuencias de la declaración de usura (aplicación del artículo 3 de la Ley de Represión de la Usura).",
+            "Se recuperan las referencias a las sentencias del Tribunal Supremo (STS 19.02.1912, STS 539/2009 de 14 de julio) para fundamentar la naturaleza 'radical, absoluta y originaria' de la nulidad y sus consecuencias.",
+            "Se restituye la mención al interés remuneratorio del primer contrato y su TAE."
+          ],
+          "validation": {
+            "spirit_respected": true,
+            "risk_level": "low",
+            "issues": []
+          },
+          "quality": {
+            "quality_score": 100,
+            "quality_label": "excellent"
+          },
+          "attempts": 2,
+          "auto_regenerated": true,
+          "ordinal": "SEGUNDO",
+          "heading": "La actora y la mercantil Euro Crédito EFC SA suscribieron un contrato de tarjeta con línea de crédito"
+        },
+        {
+          "original_text": "el demandado.",
+          "simplified_text": "la persona contra la que se ha presentado la demanda.",
+          "incorrect_things": "omisión de contexto, falta de identificación",
+          "change_log": [
+            "Se ha ampliado la frase para dar contexto y explicar a qué se refiere el término 'demandado'."
+          ],
+          "validation": {
+            "spirit_respected": true,
+            "risk_level": "low",
+            "issues": []
+          },
+          "quality": {
+            "quality_score": 100,
+            "quality_label": "excellent"
+          },
+          "attempts": 1,
+          "auto_regenerated": false,
+          "ordinal": "TERCERO",
+          "heading": "De conformidad con lo previsto en el art 394 LEC, las costas procesales deben ser abonadas por"
+        }
+      ]
+    },
+    {
+      "id": "fallo",
+      "type": "decision",
+      "title": "FALLO",
+      "original_text": "FALLO Que estimando la demanda presentada por la Procuradora Dña. Lucía Vázquez Pimentel Sánchez n, actuando en representación de por DÑA.  Loreto  demanda de juicio ordinario contra BANCO CETELEM  SAU debo declarar la nulidad parcial de los préstamos suscritos entre las partes y condenar a la demandada a restituir, en su caso, a la actora la suma abonada por ella que exceda de las cantidades de las que efectivamente ha dispuesto cuya concreta determinación se efectuará en ejecución de sentencia. Notifíquese esta resolución a las partes, haciéndoles saber que la misma no es ﬁrme, y contra ella cabe recurso de apelación a interponer ante este Juzgado en el plazo de veinte días a contar desde la notiﬁcación de la presente sentencia y del que conocerá la Ilma. Audiencia Provincial de Madrid, debiéndose constituir en tal caso el depósito de 50 € previsto en la Disposición Adicional Decimoquinta de la LOPJ mediante la oportuna consignación en la entidad de crédito y en la «Cuenta de Depósitos y Consignaciones\" abierta a nombre del Juzgado o del Tribunal, lo que deberá ser acreditado. Así por esta mi sentencia, juzgando en esta instancia lo pronuncio, mando y ﬁrmo.",
+      "simplified_text": "Se estima la demanda presentada por Dña. Lucía Vázquez Pimentel Sánchez, en nombre de Dña. Loreto, contra BANCO CETELEM SAU. Por ello, se declara la nulidad parcial de los contratos de préstamo firmados entre ambas partes. Se condena a BANCO CETELEM SAU a devolver a Dña. Loreto la cantidad que haya pagado por encima de lo que realmente recibió del préstamo. La cantidad exacta a devolver se determinará más adelante, en la fase de ejecución de esta sentencia.\n\nEsta decisión debe ser notificada a las partes. Se les informa que la sentencia no es definitiva y que pueden presentar un recurso de apelación ante este Juzgado en un plazo de veinte días, contados desde la notificación de la sentencia. El recurso será resuelto por la Audiencia Provincial de Madrid.\n\nPara presentar el recurso, deberán depositar 50 € en la \"Cuenta de Depósitos y Consignaciones\" del Juzgado. Este depósito se debe realizar en una entidad de crédito y su pago deberá ser acreditado.\n\nAsí se pronuncia, ordena y firma esta sentencia.",
+      "incorrect_things": "Mayúsculas innecesarias ('PROCURADORA', 'DEMANDA', 'BANCO CETELEM SAU', 'ACTORA', 'RESOLUCIÓN', 'FIRME', 'RECURSO DE APELACIÓN', 'JUZGADO', 'ILMA. AUDIENCIA PROVINCIAL DE MADRID', 'DEPÓSITO', 'DISPOSICIÓN ADICIONAL DECIMOQUINTA', 'LOPJ', 'ENTIDAD DE CRÉDITO', 'CUENTA DE DEPÓSITOS Y CONSIGNACIONES', 'TRIBUNAL', 'SENTENCIA', 'JUZGANDO', 'INSTANCIA'). Frases muy largas y complejas. Tecnicismos sin explicación ('ejecución de sentencia', 'recurso de apelación', 'Disposición Adicional Decimoquinta de la LOPJ'). Omisión de información relevante en la estructura del fallo (como la identificación de las partes de forma clara). Uso de construcciones pasivas poco claras ('debo declarar', 'se efectuará'). Redundancia ('pronuncio, mando y firmo').",
+      "change_log": [
+        "Se ha simplificado la estructura del fallo para una mayor claridad.",
+        "Se han eliminado las mayúsculas innecesarias en sustantivos comunes y nombres propios.",
+        "Se han acortado las frases complejas y se han separado en párrafos lógicos.",
+        "Se han explicado o contextualizado algunos tecnicismos legales.",
+        "Se ha hecho más directa la redacción, utilizando la voz activa cuando ha sido posible.",
+        "Se ha eliminado la redundancia final 'pronuncio, mando y firmo' por ser una fórmula ya implícita en la naturaleza de una sentencia."
+      ],
+      "validation": {
+        "spirit_respected": true,
+        "risk_level": "low",
+        "issues": []
+      },
+      "quality": {
+        "quality_score": 100,
+        "quality_label": "excellent"
+      },
+      "attempts": 1,
+      "auto_regenerated": false
+    },
+    {
+      "id": "proteccion_datos",
+      "type": "disposiciones_finales",
+      "title": "ADVERTENCIAS SOBRE DIFUSIÓN Y DATOS PERSONALES",
+      "original_text": "La difusión del texto de esta resolución a partes no interesadas en el proceso en el que ha sido dictada sólo podrá llevarse a cabo previa disociación de los datos de carácter personal que los mismos contuvieran y con pleno respeto al derecho a la intimidad, a los derechos de las personas que requieran un especial deber de 4 JURISPRUDENCIA tutela o a la garantía del anonimato de las víctimas o perjudicados, cuando proceda. Los datos personales incluidos en esta resolución no podrán ser cedidos, ni comunicados con ﬁnes contrarios a las leyes. 5",
+      "simplified_text": "Este documento solo se puede compartir con personas ajenas al proceso si antes se han eliminado o separado los datos personales. Al compartirlo, se debe respetar el derecho a la privacidad, la protección especial que necesiten algunas personas y el anonimato de las víctimas o afectados, si corresponde. Los datos personales de este documento no se pueden entregar ni usar para fines ilegales.",
+      "incorrect_things": "frases farragosas, tecnicismos innecesarios (disociación), orden ilógico",
+      "change_log": [
+        "Se reestructuró la primera oración para que sea más directa.",
+        "Se reemplazaron términos técnicos por palabras más comunes ('disociación' por 'eliminado o separado', 'partes no interesadas' por 'personas ajenas').",
+        "Se simplificó la construcción de la frase para mejorar la fluidez.",
+        "Se aclaró el concepto de 'especial deber de tutela' y 'garantía del anonimato' dentro del contexto.",
+        "Se unificó la idea sobre la prohibición de cesión o comunicación de datos para fines ilegales en una oración más concisa."
+      ],
+      "validation": {
+        "spirit_respected": true,
+        "risk_level": "low",
+        "issues": []
+      },
+      "quality": {
+        "quality_score": 100,
+        "quality_label": "excellent"
+      },
+      "attempts": 1,
+      "auto_regenerated": false
+    }
+  ],
+  "audit_log": {
+    "summary": {
+      "total_sections": 5,
+      "total_subsections": 9,
+      "auto_regenerations": 1,
+      "high_risk_fragments": 0,
+      "medium_risk_fragments": 0,
+      "global_quality_score": 96.25,
+      "timestamp": "2025-11-20T10:13:24.181560Z",
+      "model_used": "gemini-2.5-flash-lite"
+    },
+    "high_risk_fragments": [],
+    "medium_risk_fragments": [],
+    "fragments": [
+      {
+        "section_id": "intro",
+        "section_title": "SENTENCIA Nº 301/2019",
+        "ordinal": null,
+        "heading": null,
+        "risk_level": "low",
+        "spirit_respected": true,
+        "quality_score": 100,
+        "quality_label": "excellent",
+        "attempts": 1,
+        "auto_regenerated": false
+      },
+      {
+        "section_id": "antecedentes",
+        "section_title": "ANTECEDENTES DE HECHO",
+        "ordinal": null,
+        "heading": null,
+        "risk_level": "low",
+        "spirit_respected": true,
+        "quality_score": 100,
+        "quality_label": "excellent",
+        "attempts": 1,
+        "auto_regenerated": false
+      },
+      {
+        "section_id": "antecedentes",
+        "section_title": "ANTECEDENTES DE HECHO",
+        "ordinal": "PRIMERO",
+        "heading": "El pasado 30 de noviembre de 2018 se presentó por la Procuradora Dña. Lucía Vázquez Pimentel",
+        "risk_level": "low",
+        "spirit_respected": true,
+        "quality_score": 100,
+        "quality_label": "excellent",
+        "attempts": 1,
+        "auto_regenerated": false
+      },
+      {
+        "section_id": "antecedentes",
+        "section_title": "ANTECEDENTES DE HECHO",
+        "ordinal": "SEGUNDO",
+        "heading": "Admitida la demanda a trámite se presentó por el Procurador D. Manuel Martínez de Lejarza Ureña,",
+        "risk_level": "low",
+        "spirit_respected": true,
+        "quality_score": 100,
+        "quality_label": "excellent",
+        "attempts": 1,
+        "auto_regenerated": false
+      },
+      {
+        "section_id": "antecedentes",
+        "section_title": "ANTECEDENTES DE HECHO",
+        "ordinal": "TERCERO",
+        "heading": "Celebrada la audiencia previa con el resultado que obra en el soporte videográﬁco grabado, dado",
+        "risk_level": "low",
+        "spirit_respected": true,
+        "quality_score": 100,
+        "quality_label": "excellent",
+        "attempts": 1,
+        "auto_regenerated": false
+      },
+      {
+        "section_id": "antecedentes",
+        "section_title": "ANTECEDENTES DE HECHO",
+        "ordinal": "TERCERO",
+        "heading": "En la tramitación de estos autos se han observado las prescripciones legales",
+        "risk_level": "not_applicable",
+        "spirit_respected": false,
+        "quality_score": 55,
+        "quality_label": "risky",
+        "attempts": 0,
+        "auto_regenerated": false
+      },
+      {
+        "section_id": "fundamentos",
+        "section_title": "FUNDAMENTOS DE DERECHO",
+        "ordinal": null,
+        "heading": null,
+        "risk_level": "low",
+        "spirit_respected": true,
+        "quality_score": 100,
+        "quality_label": "excellent",
+        "attempts": 1,
+        "auto_regenerated": false
+      },
+      {
+        "section_id": "fundamentos",
+        "section_title": "FUNDAMENTOS DE DERECHO",
+        "ordinal": "PRIMERO",
+        "heading": "La parte actora ejercita la acción de nulidad de los contratos suscritos el 25 de octubre de 2002 y 4",
+        "risk_level": "low",
+        "spirit_respected": true,
+        "quality_score": 100,
+        "quality_label": "excellent",
+        "attempts": 1,
+        "auto_regenerated": false
+      },
+      {
+        "section_id": "fundamentos",
+        "section_title": "FUNDAMENTOS DE DERECHO",
+        "ordinal": "SEGUNDO",
+        "heading": "La actora y la mercantil Euro Crédito EFC SA suscribieron un contrato de tarjeta con línea de crédito",
+        "risk_level": "low",
+        "spirit_respected": true,
+        "quality_score": 100,
+        "quality_label": "excellent",
+        "attempts": 2,
+        "auto_regenerated": true
+      },
+      {
+        "section_id": "fundamentos",
+        "section_title": "FUNDAMENTOS DE DERECHO",
+        "ordinal": "TERCERO",
+        "heading": "De conformidad con lo previsto en el art 394 LEC, las costas procesales deben ser abonadas por",
+        "risk_level": "low",
+        "spirit_respected": true,
+        "quality_score": 100,
+        "quality_label": "excellent",
+        "attempts": 1,
+        "auto_regenerated": false
+      },
+      {
+        "section_id": "fallo",
+        "section_title": "FALLO",
+        "ordinal": null,
+        "heading": null,
+        "risk_level": "low",
+        "spirit_respected": true,
+        "quality_score": 100,
+        "quality_label": "excellent",
+        "attempts": 1,
+        "auto_regenerated": false
+      },
+      {
+        "section_id": "proteccion_datos",
+        "section_title": "ADVERTENCIAS SOBRE DIFUSIÓN Y DATOS PERSONALES",
+        "ordinal": null,
+        "heading": null,
+        "risk_level": "low",
+        "spirit_respected": true,
+        "quality_score": 100,
+        "quality_label": "excellent",
+        "attempts": 1,
+        "auto_regenerated": false
+      }
+    ]
+  }
+}

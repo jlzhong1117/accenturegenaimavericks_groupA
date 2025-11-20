@@ -12,6 +12,10 @@ dependencies = [
     "langchain-google-genai>=0.0.1",
     "langchain-huggingface>=1.0.1",
     "langchain-openai>=1.0.2",
+    "markdown>=3.10",
+    "pdfkit>=1.0.0",
     "pypdf>=6.2.0",
+    "reportlab>=4.4.5",
     "sentence-transformers>=5.1.2",
+    "weasyprint>=66.0",
 ]

@@ -13,7 +13,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 import google.generativeai as genai
 from google.api_core import exceptions as google_exceptions  # <<< CAMBIO
-from types import SimpleNamespace  # <<< CAMBIO
+
 from parse_sentence import parse_sentence_text
 
 # To make the pdf
@@ -96,38 +96,29 @@ def init_model():
 # <<< CAMBIO: helper para usar fallback si hay error de cuota
 def generate_with_fallback(model, prompt: str):
     """
-    Llama a model.generate_content(prompt). Si hay error de cuota (ResourceExhausted)
-    o timeout (DeadlineExceeded), reintenta con el modelo de respaldo.
-    Si también falla el respaldo, devuelve una respuesta vacía para que el
-    pipeline no reviente y se marque el fragmento como de alto riesgo.
+    Llama a model.generate_content(prompt). Si hay error de cuota (ResourceExhausted),
+    reintenta automáticamente con el modelo de respaldo FALLBACK_MODEL_NAME.
+    Actualiza CURRENT_MODEL_NAME según el modelo finalmente utilizado.
     """
     global CURRENT_MODEL_NAME
 
+    # 1º intento: modelo principal (el que hemos creado en init_model)
     try:
-        # 1º intento: modelo principal
         response = model.generate_content(prompt)
         CURRENT_MODEL_NAME = PRIMARY_MODEL_NAME
         return response
-
-    except (google_exceptions.ResourceExhausted,
-            google_exceptions.DeadlineExceeded) as e:
-        print(f"⚠️ Error con {PRIMARY_MODEL_NAME} ({e.__class__.__name__}): {e}")
-        print(f"   Probando con modelo de respaldo {FALLBACK_MODEL_NAME}...")
-
+    except google_exceptions.ResourceExhausted as e:
+        # Si el principal se queda sin cuota, probamos el fallback
+        print(f"⚠️ Cuota agotada para {PRIMARY_MODEL_NAME}. Probando con {FALLBACK_MODEL_NAME}...")
         fallback_model = genai.GenerativeModel(FALLBACK_MODEL_NAME)
         try:
             response = fallback_model.generate_content(prompt)
             CURRENT_MODEL_NAME = FALLBACK_MODEL_NAME
             return response
-
-        except (google_exceptions.ResourceExhausted,
-                google_exceptions.DeadlineExceeded) as e2:
-            print(f"❌ También falló {FALLBACK_MODEL_NAME} ({e2.__class__.__name__}).")
-            print("   Se continúa sin respuesta LLM; este fragmento quedará marcado como de alto riesgo.")
-            CURRENT_MODEL_NAME = "none"
-            # Objeto mínimo compatible con el resto del código (tiene atributo .text)
-            return SimpleNamespace(text="")
-
+        except google_exceptions.ResourceExhausted as e2:
+            # Si también falla el fallback, re-lanzamos el último error
+            print(f"❌ Cuota agotada también para {FALLBACK_MODEL_NAME}.")
+            raise e2
 
 
 def parse_json_response(raw_text: str) -> Dict[str, Any]:
