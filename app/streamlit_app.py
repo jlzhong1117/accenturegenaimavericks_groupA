@@ -1,22 +1,25 @@
 import os
 import tempfile
-from pathlib import Path
+from dotenv import load_dotenv
 
-import streamlit as st
+from simplify_judgment import run_simplification_pipeline_for_streamlit
 
-from src.pipeline import simplify_document 
-
-# --- 1. Configuration and API Key Check ---
+# 1) Configuration and Environment Setup
 st.set_page_config(page_title="Legal Simplification System", layout="wide")
 
-# Use Streamlit secrets for secure key management
-if "GEMINI_API_KEY" not in st.secrets:
-    st.error("🔑 Gemini API Key not found in Streamlit secrets.")
-    st.info("Please add your key under [secrets] in the .streamlit/secrets.toml file.")
-else:
-    os.environ["GEMINI_API_KEY"] = st.secrets["GEMINI_API_KEY"]
+# Load environment variables from .env
+load_dotenv()
 
-# --- 2. Main Application Interface ---
+# Check if the key exists in the env vars
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+
+if not GOOGLE_API_KEY:
+    st.error("🔑 GOOGLE_API_KEY not found in the environment (.env).")
+    st.info("Add GOOGLE_API_KEY=your_key in the .env file at the project root.")
+else:
+    st.success("🔑 GOOGLE_API_KEY loaded from .env.")
+
+# --- 2. Main Interface ---
 st.title("⚖️ Legal Document Simplifier (Spanish Judicial Decisions)")
 
 uploaded_file = st.file_uploader(
@@ -25,42 +28,53 @@ uploaded_file = st.file_uploader(
     accept_multiple_files=False
 )
 
-if uploaded_file is not None and os.getenv("GEMINI_API_KEY"):
+if uploaded_file is not None:
     st.info(f"File uploaded: **{uploaded_file.name}**. Click Simplify to begin.")
 
     if st.button("✨ Simplify Document"):
-        # Create a temporary file to save the uploaded PDF
-        # This is necessary because the RAG pipeline likely expects a file path, not a Streamlit object
+        # Guardar el PDF subido en un archivo temporal
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
             tmp_file.write(uploaded_file.getbuffer())
             pdf_path = tmp_file.name
-        
-        # --- Run the RAG Pipeline ---
-        with st.spinner("⏳ Analyzing and simplifying the complex legal document..."):
-            try:
-                # Call the function from your core script
-                simplified_output = simplify_document(Path(pdf_path))
 
-                st.success("✅ Document Simplified Successfully!")
-                st.markdown("---")
-                
-                # --- 3. Display Results ---
-                
-                tab1, tab2 = st.tabs(["Simplified Markdown Output", "Structured JSON Data"])
-                
-                with tab1:
-                    st.subheader("Human-Readable Simplified Judgment")
-                    # Assuming your function returns a dictionary with a 'markdown' key
-                    st.markdown(simplified_output.get('markdown', 'No simplified text found.'))
+        try:
+            with st.spinner("⏳ Analyzing and simplifying the complex legal document..."):
+                result = run_simplification_pipeline_for_streamlit(pdf_path)
 
-                with tab2:
-                    st.subheader("Structured Data Output")
-                    # Assuming your function returns a dictionary with a 'json' key
-                    st.json(simplified_output.get('json', {}))
+            st.success("✅ Document Simplified Successfully!")
+            st.markdown("---")
 
-            except Exception as e:
-                st.error(f"An error occurred during simplification: {e}")
-            
-            finally:
-                # Clean up the temporary file
-                os.unlink(pdf_path)
+            tab1, tab2, tab3 = st.tabs([
+                "Simplified Markdown Output",
+                "Download PDF",
+                "Download JSON",
+            ])
+
+            with tab1:
+                st.subheader("Human-Readable Simplified Judgment")
+                st.markdown(result["markdown"])
+
+            with tab2:
+                st.subheader("Download Simplified PDF")
+                st.download_button(
+                    label="⬇️ Download PDF",
+                    data=result["pdf_bytes"],
+                    file_name=f"clarified_{result['base_name']}.pdf",
+                    mime="application/pdf",
+                )
+
+            with tab3:
+                st.subheader("Download JSON (Structured Data)")
+                st.download_button(
+                    label="⬇️ Download JSON",
+                    data=result["json_bytes"],
+                    file_name=f"{result['base_name']}_resultado.json",
+                    mime="application/json",
+                )
+
+        except Exception as e:
+            st.error(f"An error occurred during simplification: {e}")
+
+        finally:
+            # Clean up the temporary file
+            os.unlink(pdf_path)

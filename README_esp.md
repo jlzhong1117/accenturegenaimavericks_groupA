@@ -238,22 +238,70 @@ Este proyecto combina:
 
 El resultado es un sistema sólido, fiable y explicable que transforma textos jurídicos complejos en versiones claras **sin perder precisión legal**, algo esencial en proyectos reales de IA aplicada a justicia.
 
-# Como crear un entorno uv y ejecutar el código
-1. Crear un entorno uv (si no tienes uv instalado, primero instala uv con `pip install uv`):
+---
 
-   ```bash
-   uv create venv
-   ```
-2. Activar el entorno uv:
-   ```bash
-    .venv\Scripts\activate
-    ```
-3. Instalar las dependencias usando el archivo de bloqueo uv:
-    ```bash
-    uv sync
-    ```
-4. Para ejecutar el código, usa el comando:
-    ```bash
-    uv run python simplify_judgment.py archivo.pdf
-    ```
-    Reemplaza archivo.pdf con la ruta al archivo PDF que deseas procesar.
+# 🧪 Ejecutar localmente con UV
+
+## 1. Instalar uv
+
+```bash
+pip install uv
+```
+
+## 2. Crear el entorno
+
+```bash
+uv create venv
+```
+
+## 3. Activar el entorno
+
+```bash
+.venv\Scripts\activate
+```
+
+## 4. Instalar dependencias
+
+```bash
+uv sync
+```
+
+## 5. Ejecutar el pipeline de simplificación manualmente
+
+```bash
+uv run python simplify_judgment.py file.pdf
+```
+
+Replace `file.pdf` with your judgment.
+
+---
+
+# 🌐 Ejecutar el sistema desde Streamlit (Interfaz recomendada)
+
+Proporcionamos una interfaz sencilla para subir un PDF y obtener:
+
+* Markdown simplificado
+* PDF aclarado descargable
+* JSON descargable
+
+## 1. Asegúrate de que `.env` contiene tu clave API
+
+```
+GOOGLE_API_KEY=your_key_here
+```
+
+## 2. Lanzar la aplicación Streamlit
+
+Ejecuta este comando en la raíz del proyecto:
+
+```bash
+streamlit run streamlit_app.py
+```
+
+## 3. Usar la interfaz
+
+* Sube un **PDF de la sentencia**
+* Haz clic en **“Simplificar Documento”**
+* Descarga el **PDF y JSON** generados automáticamente
+
+
