@@ -1,123 +1,140 @@
-# README — Sistema de Simplificación y Validación de Sentencias en Lenguaje Claro
+# README — System for Simplifying and Validating Court Judgments into Plain Language
 
-## 📌 Resumen del proyecto
+## 📌 Project Summary
 
-Este proyecto implementa un sistema completo para **transformar sentencias judiciales en PDF** en una versión redactada en **lenguaje claro**, garantizando siempre que **no se altere el sentido jurídico** del texto original.
+This project implements a complete system that transforms **court judgments in PDF format** into a version written in **clear, plain language**, while guaranteeing that **the legal meaning of the original text is fully preserved**.
 
-El resultado final incluye:
+The pipeline produces:
 
-* Una sentencia **reescrita en lenguaje claro**.
-* Una **validación automática** del espíritu de la norma.
-* Un **informe de auditoría** con riesgos, calidad y trazabilidad.
-* Generación de **JSON estructurado**, **README.md** y **PDF final** útil para revisión judicial.
+* A **plain-language rewritten judgment**
+* An automated **validation of the legal meaning (spirit of the norm)**
+* A complete **audit report** (risk, quality score, regeneration attempts)
+* Three final deliverables:
 
-El objetivo es acercar el contenido jurídico a ciudadanos y profesionales sin formación legal, **sin comprometer la fidelidad jurídica**.
+```
+resultado.json     → structured data + audit log
+README.md          → plain-language version of the judgment
+clarified_<name>.pdf → typeset PDF version of the README
+```
 
----
-
-# 🧩 Arquitectura conceptual del proyecto
-
-El proyecto combina tres elementos principales:
-
-1. **Un parser** que transforma el PDF en una estructura lógica.
-2. **Un sistema RAG** que proporciona contexto jurídico real.
-3. **Un sistema multi-agente de IA** encargado de reescritura, validación y autocorrección.
+The goal is to make court rulings understandable for citizens and non-experts **without losing legal accuracy**.
 
 ---
 
-# 🔍 1. Parseo jurídico de la sentencia
+# 🧩 High-Level Architecture
 
-Antes de procesar cualquier fragmento, la sentencia en PDF se transforma en una estructura organizada:
+The project combines three major components:
 
-* **Metadatos**: órgano, fecha, procedimiento...
-* **Secciones jurídicas**:
+1. **A legal parser** to convert the PDF into a structured representation
+2. **A RAG system** to provide real legal context
+3. **A multi-agent LLM pipeline** that rewrites, validates, and self-corrects the text
 
-  * Encabezado
-  * Antecedentes de Hecho
-  * Fundamentos de Derecho
-  * Fallo
-* **Subsecciones** con ordinales (PRIMERO, SEGUNDO, TERCERO…)
-* **Fragmentos (chunks)** de texto
+---
 
-Esta estructura permite:
+# 🔍 1. Legal Parsing of the Judgment
 
-* Procesar cada parte por separado
-* Evitar mezclar razonamientos
-* Combinar precisión jurídica con claridad textual
+Before any AI processing, the PDF is converted into a structured format that reflects the internal logic of a court ruling:
+
+* **Metadata**: court, date, proceeding type, ROJ number…
+* **Legal sections**:
+
+  * Header
+  * Facts (Antecedentes de Hecho)
+  * Legal Grounds (Fundamentos de Derecho)
+  * Decision (Fallo)
+* **Subsections** with legal ordinals (FIRST, SECOND, THIRD…)
+* **Text fragments (chunks)**
+
+This structure enables:
+
+* Fragment-by-fragment processing
+* Clear separation of legal reasoning
+* Precise alignment between original and rewritten text
 
 ---
 
 # 🧠 2. RAG — Retrieval Augmented Generation
 
-### ❓ ¿Por qué es necesario?
+### ❓ Why is RAG essential?
 
-Un modelo de lenguaje por sí solo no siempre replica criterios jurídicos oficiales ni conoce patrones reales de redacción judicial.
+A standalone LLM cannot reliably replicate:
 
-Para asegurar coherencia, calidad y precisión, usamos un **RAG** como memoria jurídica externa.
+* judicial writing standards
+* clarity guidelines
+* typical structure of court reasoning
+* terminology and style from the Spanish judiciary
 
----
-
-## 📚 Fuentes que utiliza el RAG
-
-### **1) Guía de Lenguaje Claro del Poder Judicial**
-
-Almacenada en `chroma_guide/`.
-
-Incluye:
-
-* Reglas de claridad
-* Estilo judicial recomendado
-* Correcciones frecuentes (mayusculismo, frases largas…)
-* Ejemplos de buena redacción
-
-### **2) Sentencias reales**
-
-Almacenadas en `chroma_judgments/`.
-
-Aporta:
-
-* Estructuras reales
-* Forma jurídica correcta
-* Ejemplos prácticos de simplificación
+RAG solves this by providing the model with **authoritative external context**.
 
 ---
 
-## 🔎 ¿Cómo funciona el RAG?
+## 📚 Knowledge Sources Used by the RAG
 
-Para cada fragmento de la sentencia:
+### **1) Official Judicial Plain Language Guide**
 
-1. Se genera una **consulta** basada en el texto original.
-2. Los vector stores devuelven **los fragmentos más relevantes** de:
+Stored in `chroma_guide/`.
 
-   * la guía de lenguaje claro
-   * otras sentencias judiciales
-3. Ese material se inserta como **contexto directo** en la llamada al LLM.
-4. El LLM reescribe el texto siguiendo **criterios reales y documentados**, reduciendo errores y alucinaciones.
+Provides:
 
-> El RAG no es opcional: es el componente que garantiza que la IA no inventa, no se desvía y redacta como lo haría un profesional del derecho en lenguaje claro.
+* clarity and simplification principles
+* typical judicial style
+* common corrections (capitalization, long sentences, jargon)
+* examples of best practices
+
+### **2) Real court judgments**
+
+Stored in `chroma_judgments/`.
+
+Provides:
+
+* examples of correctly written judgments
+* real legal structures and tone
+* additional guidance for consistency
 
 ---
 
-# 🤖 3. Sistema de Agentes LLM
+## 🔎 How the RAG Works in the Pipeline
 
-El proyecto no usa un único modelo “mágico”, sino un **sistema multi-agente**, donde cada agente tiene un rol bien definido.
+For each fragment of the judgment:
 
-Esto imita un flujo de trabajo judicial real: un redactor y un auditor.
+1. A **query** is generated based on the original text
+2. Two vectorstores retrieve relevant fragments:
+
+   * plain-language guide excerpts
+   * excerpts from real judgments
+3. These are merged into a **context block**
+4. The LLM uses this block to rewrite the fragment
+
+   * reduces hallucinations
+   * improves legal accuracy
+   * ensures stylistic consistency
+
+> RAG ensures that the model does not improvise, but writes **in alignment with real judicial standards**.
 
 ---
 
-## 🟦 Agente 1 — Simplificador en Lenguaje Claro
+# 🤖 3. Multi-Agent LLM System
 
-*(El Escritor Judicial)*
+The pipeline does *not* rely on a single model.
+Instead, it uses a **two-agent system**, each with a specialized role.
 
-Este agente se encarga de:
+This mimics a real judicial workflow:
+**a writer** and **an auditor**.
 
-* Reescribir el texto jurídico en versiones **claras, ordenadas y comprensibles**.
-* Mantener la **precisión jurídica**.
-* Identificar malas prácticas del texto original.
-* Explicar los cambios (change_log).
+---
 
-Produce un JSON estructurado:
+## 🟦 Agent 1 — Plain-Language Rewriter
+
+*(The Judicial Writer)*
+
+Responsible for:
+
+* Rewriting the text in clear, structured, accessible language
+* Maintaining legal precision
+* Identifying writing issues in the original text
+* Providing a detailed change log
+
+Produces:
 
 ```json
 {
@@ -127,23 +144,26 @@ Produce un JSON estructurado:
 }
 ```
 
+This is the creative agent, but guided by RAG and strict instructions.
+
 ---
 
-## 🟥 Agente 2 — Validador del Espíritu de la Norma
+## 🟥 Agent 2 — Validator of the Spirit of the Norm
 
-*(El Auditor Jurídico)*
+*(The Legal Auditor)*
 
-Este agente compara:
+This agent compares:
 
-* Texto original vs texto simplificado
+* original vs simplified text
 
-Y determina:
+And detects:
 
-* Si el sentido jurídico se mantiene intacto.
-* Si se han cambiado datos relevantes.
-* Si hay riesgo de interpretación incorrecta.
+* changes in meaning
+* altered parties, dates, amounts, deadlines
+* additions or omissions of legal effects
+* tone deviations that may affect interpretation
 
-Produce:
+Produces:
 
 ```json
 {
@@ -153,87 +173,92 @@ Produce:
 }
 ```
 
-Es crítico, estricto y no reescribe, solo evalúa.
+It is **strict and conservative**, and does *not* rewrite.
+Its role is pure legal safeguarding.
 
 ---
 
-# 🔁 4. Autoregeneración — Un sistema autocorrectivo
+# 🔁 4. Self-Regeneration Mechanism (Automatic Corrections)
 
-El pipeline incorpora un mecanismo de **auto-mejora**:
+The system includes an intelligent **self-correction loop**:
 
-1. El LLM reescribe.
-2. El auditor detecta fallos.
-3. Se generan instrucciones adicionales explicando qué corregir.
-4. El LLM reescribe otra versión.
-5. Se vuelve a validar.
+1. The writer agent rewrites
+2. The auditor flags risks
+3. The system generates *regeneration hints*
 
-Hasta un máximo de **3 iteraciones**.
+   * detailed issues
+   * corrections needed
+   * warnings detected
+4. The writer produces a new version
+5. The auditor reevaluates
 
-Si aun así persisten errores:
+Up to **3 automatic attempts**.
 
-* El fragmento se marca como **HIGH RISK**.
-* Se requiere revisión humana.
+If still unsafe:
 
-Este mecanismo hace al sistema:
+* fragment is marked **HIGH RISK**
+* human review is required
 
-* más robusto
-* más seguro
-* más fiable
-* y más alineado con procesos jurídicos reales
+This makes the pipeline:
 
----
-
-# 📊 5. Auditoría y Quality Score
-
-Cada fragmento obtiene una puntuación automática basada en:
-
-* Respeto del espíritu de la norma
-* Riesgo detectado
-* Divergencias señaladas
-* Nº de autocorrecciones necesarias
-* Limpieza y coherencia del texto final
-
-La media global produce un **quality score de la sentencia**.
-
-Además, se generan logs para rastrear:
-
-* Qué fragmentos han sido problemáticos
-* Cuántos intentos se han necesitado
-* Qué modelo LLM ha intervenido (principal o fallback)
-
-Todo queda registrado en `resultado.json`.
+* robust
+* explainable
+* legally cautious
+* self-correcting
 
 ---
 
-# 📄 6. Resultados finales
+# 📊 5. Quality Score and Audit System
 
-Tras procesar una sentencia PDF, se genera:
+Each fragment receives a **0–100 quality score**, based on:
+
+* respect of the legal meaning
+* risk level
+* issues reported
+* need for regenerations
+
+A global score is also computed for the entire judgment.
+
+The `resultado.json` file includes:
+
+* complete trace of decisions
+* fragments marked medium/high risk
+* attempt counts
+* model used (main or fallback)
+
+This ensures transparency and auditability.
+
+---
+
+# 📄 6. Final Output Delivered
+
+After running the pipeline, the system generates:
 
 ```
-outputs/<ID_SENTENCIA>/
-  ├── resultado.json           → auditoría completa del pipeline
-  ├── README.md                → sentencia simplificada en lenguaje claro
-  └── clarified_<ID>.pdf       → versión PDF lista para entregar
+outputs/<JUDGMENT_ID>/
+  ├── resultado.json           → full audit + structured processing results
+  ├── README.md                → plain-language rewritten judgment
+  └── clarified_<ID>.pdf       → typeset PDF generated from README
 ```
 
-La versión PDF se maqueta automáticamente a partir del README simplificado.
+The PDF is clean, structured, and ready for publication or human review.
 
 ---
 
-# 🎯 Conclusión
+# 🎯 Conclusion
 
-Este proyecto combina:
+This project combines:
 
-### ✔ Procesamiento jurídico estructurado
+### ✔ Legal document structuring
 
-### ✔ RAG con fuentes reales
+### ✔ RAG with authoritative external sources
 
-### ✔ Agentes especializados que cooperan
+### ✔ A multi-agent LLM pipeline
 
-### ✔ Validación automática de riesgo
+### ✔ Legal-meaning validation and risk detection
 
-### ✔ Autocorrección inteligente
+### ✔ Automatic self-correction
 
-### ✔ Auditoría completa y trazabilidad
+### ✔ Full auditability and transparency
 
-El resultado es un sistema sólido, fiable y explicable que transforma textos jurídicos complejos en versiones claras **sin perder precisión legal**, algo esencial en proyectos reales de IA aplicada a justicia.
+The result is a reliable system capable of transforming complex court judgments into clear, accessible language **without compromising legal accuracy**, which is essential for real-world deployment in justice systems.

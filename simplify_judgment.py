@@ -6,18 +6,17 @@ from typing import List, Dict, Any
 from dotenv import load_dotenv
 from datetime import datetime
 
-load_dotenv()  # Carga variables de entorno desde .env
+load_dotenv()  # Load environment variables from .env
 
 from pypdf import PdfReader
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 import google.generativeai as genai
-from google.api_core import exceptions as google_exceptions  # <<< CAMBIO
-from types import SimpleNamespace  # <<< CAMBIO
+from google.api_core import exceptions as google_exceptions  # <<< CHANGE
+from types import SimpleNamespace  # <<< CHANGE
 from parse_sentence import parse_sentence_text
 
-# To make the pdf
-# Para generar el PDF sin wkhtmltopdf
+# To generate the PDF without wkhtmltopdf
 from reportlab.lib.pagesizes import A4
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, ListFlowable, ListItem
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -32,10 +31,10 @@ GUIDE_DB_DIR = "./chroma_guide"
 JUDG_DB_DIR = "./chroma_judgments"
 OUTPUT_DIR = "./outputs"
 
-# <<< CAMBIO: configuración de modelos principal y de respaldo
+# <<< CHANGE: configuration for primary and fallback models
 PRIMARY_MODEL_NAME = "gemini-2.5-flash-lite"
 FALLBACK_MODEL_NAME = "gemini-2.0-flash-lite"
-CURRENT_MODEL_NAME = PRIMARY_MODEL_NAME  # se actualizará en tiempo de ejecución
+CURRENT_MODEL_NAME = PRIMARY_MODEL_NAME  # will be updated at runtime
 
 
 def load_pdf_text(pdf_path: Path) -> str:
@@ -78,8 +77,8 @@ def build_context(guide_ret, judgments_ret, chunk_text: str) -> Dict[str, str]:
 
 def init_model():
     """
-    Inicializa Gemini con el modelo principal.
-    El fallback se gestiona en generate_with_fallback.
+    Initializes Gemini with the primary model.
+    The fallback is handled in generate_with_fallback.
     """
     key = os.getenv("GOOGLE_API_KEY")
     if not key:
@@ -89,30 +88,30 @@ def init_model():
     global CURRENT_MODEL_NAME
     CURRENT_MODEL_NAME = PRIMARY_MODEL_NAME
 
-    # Usamos el modelo principal; los reintentos por cuota se gestionan aparte
+    # We use the primary model; quota retries are handled separately
     return genai.GenerativeModel(PRIMARY_MODEL_NAME)
 
 
-# <<< CAMBIO: helper para usar fallback si hay error de cuota
+# <<< CHANGE: helper to use the fallback model if there is a quota error
 def generate_with_fallback(model, prompt: str):
     """
-    Llama a model.generate_content(prompt). Si hay error de cuota (ResourceExhausted)
-    o timeout (DeadlineExceeded), reintenta con el modelo de respaldo.
-    Si también falla el respaldo, devuelve una respuesta vacía para que el
-    pipeline no reviente y se marque el fragmento como de alto riesgo.
+    Calls model.generate_content(prompt). If there is a quota error (ResourceExhausted)
+    or a timeout (DeadlineExceeded), it retries with the fallback model.
+    If the fallback also fails, it returns an empty response so that the
+    pipeline does not crash and the fragment is marked as high risk.
     """
     global CURRENT_MODEL_NAME
 
     try:
-        # 1º intento: modelo principal
+        # 1st attempt: primary model
         response = model.generate_content(prompt)
         CURRENT_MODEL_NAME = PRIMARY_MODEL_NAME
         return response
 
     except (google_exceptions.ResourceExhausted,
             google_exceptions.DeadlineExceeded) as e:
-        print(f"⚠️ Error con {PRIMARY_MODEL_NAME} ({e.__class__.__name__}): {e}")
-        print(f"   Probando con modelo de respaldo {FALLBACK_MODEL_NAME}...")
+        print(f"⚠️ Error with {PRIMARY_MODEL_NAME} ({e.__class__.__name__}): {e}")
+        print(f"   Trying fallback model {FALLBACK_MODEL_NAME}...")
 
         fallback_model = genai.GenerativeModel(FALLBACK_MODEL_NAME)
         try:
@@ -122,18 +121,17 @@ def generate_with_fallback(model, prompt: str):
 
         except (google_exceptions.ResourceExhausted,
                 google_exceptions.DeadlineExceeded) as e2:
-            print(f"❌ También falló {FALLBACK_MODEL_NAME} ({e2.__class__.__name__}).")
-            print("   Se continúa sin respuesta LLM; este fragmento quedará marcado como de alto riesgo.")
+            print(f"❌ Fallback model {FALLBACK_MODEL_NAME} also failed ({e2.__class__.__name__}).")
+            print("   Continuing without LLM response; this fragment will be marked as high risk.")
             CURRENT_MODEL_NAME = "none"
-            # Objeto mínimo compatible con el resto del código (tiene atributo .text)
+            # Minimal object compatible with the rest of the code (has a .text attribute)
             return SimpleNamespace(text="")
-
 
 
 def parse_json_response(raw_text: str) -> Dict[str, Any]:
     """
-    Parser para la RESPUESTA DE SIMPLIFICACIÓN.
-    Espera un JSON con:
+    Parser for the SIMPLIFICATION RESPONSE.
+    Expects a JSON with:
     {
       "simplified_text": "...",
       "incorrect_things": "...",
@@ -168,8 +166,8 @@ def parse_json_response(raw_text: str) -> Dict[str, Any]:
 
 def parse_validation_response(raw_text: str) -> Dict[str, Any]:
     """
-    Parser para la RESPUESTA DE VALIDACIÓN DEL ESPÍRITU DE LA NORMA.
-    Espera un JSON con:
+    Parser for the VALIDATION RESPONSE OF THE SPIRIT OF THE LAW.
+    Expects a JSON with:
     {
       "spirit_respected": true/false,
       "risk_level": "low"/"medium"/"high"/"unknown",
@@ -206,8 +204,8 @@ def parse_validation_response(raw_text: str) -> Dict[str, Any]:
 
 def simplify_chunk(model, contexts, original_text: str, regen_hint: str | None = None) -> Dict[str, Any]:
     """
-    Primer paso LLM: reescritura en lenguaje claro + problemas de redacción + change_log.
-    regen_hint: texto adicional para reintentos (modo C: autoregeneración inteligente).
+    First LLM step: rewriting into plain language + listing drafting issues + change_log.
+    regen_hint: additional text for retries (Mode C: intelligent autoregeneration).
     """
     original_text = (original_text or "").strip()
     if not original_text:
@@ -256,7 +254,7 @@ Devuelve SOLO este JSON:
 }}
 """
 
-    # <<< CAMBIO: usar generate_with_fallback
+    # <<< CHANGE: use generate_with_fallback
     response = generate_with_fallback(model, prompt)
     raw_text = getattr(response, "text", None)
 
@@ -272,8 +270,8 @@ Devuelve SOLO este JSON:
 
 def validate_spirit(model, original_text: str, simplified_text: str) -> Dict[str, Any]:
     """
-    Segundo paso LLM: validación del "espíritu de la norma".
-    Compara original vs simplificado y devuelve un JSON con flags de riesgo.
+    Second LLM step: validation of the "spirit of the law".
+    Compares original vs simplified and returns a JSON with risk flags.
     """
     original_text = (original_text or "").strip()
     simplified_text = (simplified_text or "").strip()
@@ -319,7 +317,7 @@ Devuelve SOLO un JSON con este formato:
   "issues": []
 """
 
-    # <<< CAMBIO: usar generate_with_fallback
+    # <<< CHANGE: use generate_with_fallback
     response = generate_with_fallback(model, prompt)
     raw_text = getattr(response, "text", None)
 
@@ -335,10 +333,10 @@ Devuelve SOLO un JSON con este formato:
 
 def compute_quality_score(simplified_text: str, validation: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Calcula un quality score 0-100 basado en:
-    - Respeto del espíritu de la norma.
-    - Nivel de riesgo.
-    - Existencia de issues.
+    Computes a quality score 0-100 based on:
+    - Respect for the spirit of the law.
+    - Risk level.
+    - Existence of issues.
     """
     base = 100
 
@@ -357,10 +355,10 @@ def compute_quality_score(simplified_text: str, validation: Dict[str, Any]) -> D
         base -= 10
 
     if issues:
-        # Penalización ligera por issues no vacíos
+        # Small penalty for non-empty issues
         base -= 5
 
-    # Suavizado y límites
+    # Smoothing and bounds
     score = max(0, min(100, base))
 
     if score >= 90:
@@ -386,10 +384,10 @@ def simplify_and_validate_with_regen(
     max_attempts: int = 3
 ) -> Dict[str, Any]:
     """
-    Modo C: autoregeneración inteligente.
-    - Intenta simplificar + validar.
-    - Si falla la validación del espíritu o hay riesgo medium/high, regenera con hints.
-    - Devuelve info completa del fragmento, incluyendo attempts y auto_regenerated.
+    Mode C: intelligent autoregeneration.
+    - Tries simplify + validate.
+    - If spirit validation fails or risk is medium/high, regenerates using hints.
+    - Returns full info for the fragment, including attempts and auto_regenerated.
     """
     original_text = (original_text or "").strip()
     if not original_text:
@@ -419,7 +417,7 @@ def simplify_and_validate_with_regen(
     for attempt in range(1, max_attempts + 1):
         regen_hint = None
 
-        # A partir del segundo intento, generamos hints a partir de la validación previa
+        # From the second attempt onward, generate hints using the previous validation
         if attempt > 1 and last_validation is not None:
             issues = last_validation.get("issues", [])
             risk = last_validation.get("risk_level", "unknown")
@@ -443,11 +441,11 @@ def simplify_and_validate_with_regen(
         risk = (validation.get("risk_level") or "unknown").lower()
         issues = validation.get("issues", []) or []
 
-        # Condición de éxito estricta
+        # Strict success condition
         if spirit_ok and risk == "low" and not issues:
             break
 
-    # Si tras todos los intentos sigue sin respetarse claramente el espíritu, subimos riesgo
+    # If after all attempts the spirit is still not clearly respected, escalate risk
     if last_validation is None:
         last_validation = {
             "spirit_respected": False,
@@ -457,7 +455,7 @@ def simplify_and_validate_with_regen(
 
     if (not last_validation.get("spirit_respected", False)) or \
        (last_validation.get("risk_level", "").lower() in ["medium", "high", "unknown"] and auto_regenerated):
-        # Marcar como alto riesgo si no se ha podido dejar limpio tras varios intentos
+        # Mark as high risk if it could not be cleaned after several attempts
         if last_validation.get("risk_level", "").lower() != "high":
             last_validation["risk_level"] = "high"
         issues = last_validation.get("issues", []) or []
@@ -482,7 +480,7 @@ def simplify_sentence_struct(model, guide_ret, judgments_ret, doc_struct):
     result: Dict[str, Any] = {
         "metadata": doc_struct.get("metadata", {}),
         "sections": [],
-        "audit_log": {}  # se rellenará al final
+        "audit_log": {}  # will be filled at the end
     }
 
     total_sections = 0
@@ -537,7 +535,7 @@ def simplify_sentence_struct(model, guide_ret, judgments_ret, doc_struct):
 
                 processed.append(fragment_data)
 
-                # Audit info por fragmento
+                # Audit info per fragment
                 val = fragment_data["validation"]
                 q = fragment_data["quality"]
                 risk = (val.get("risk_level") or "unknown").lower()
@@ -608,7 +606,7 @@ def simplify_sentence_struct(model, guide_ret, judgments_ret, doc_struct):
                 **fragment_data
             })
 
-            # Audit info sección simple
+            # Audit info for simple section
             val = fragment_data["validation"]
             q = fragment_data["quality"]
             risk = (val.get("risk_level") or "unknown").lower()
@@ -641,13 +639,13 @@ def simplify_sentence_struct(model, guide_ret, judgments_ret, doc_struct):
                 "auto_regenerated": fragment_data.get("auto_regenerated", False)
             })
 
-    # Quality global del documento
+    # Global quality of the document
     if fragment_scores:
         global_quality = sum(fragment_scores) / len(fragment_scores)
     else:
         global_quality = 0.0
 
-    from datetime import datetime as _dt  # por si acaso
+    from datetime import datetime as _dt  # just in case
 
     result["audit_log"] = {
         "summary": {
@@ -658,7 +656,7 @@ def simplify_sentence_struct(model, guide_ret, judgments_ret, doc_struct):
             "medium_risk_fragments": len(medium_risk_fragments),
             "global_quality_score": round(global_quality, 2),
             "timestamp": _dt.utcnow().isoformat() + "Z",
-            # <<< CAMBIO: usar el modelo realmente utilizado
+            # <<< CHANGE: use the model that was actually used
             "model_used": CURRENT_MODEL_NAME
         },
         "high_risk_fragments": high_risk_fragments,
@@ -668,18 +666,20 @@ def simplify_sentence_struct(model, guide_ret, judgments_ret, doc_struct):
 
     return result
 
+
 def sanitize_md_body(text: str) -> str:
     """
-    Limpia el texto de la IA para que no meta formato Markdown raro en el README.
-    - Escapa asteriscos y guiones bajos, para que no generen negritas/cursivas.
-    - Mantiene el contenido tal cual, solo sin formato.
+    Cleans the LLM text so it does not introduce weird Markdown formatting in the README.
+    - Escapes asterisks and underscores so they do not become bold/italic.
+    - Keeps the content as is, only without formatting.
     """
     if not text:
         return ""
-    # Evitar que **algo** o *algo* se conviertan en negrita/cursiva en el README
+    # Prevent **something** or *something* from becoming bold/italic in the README
     text = text.replace("*", r"\*")
     text = text.replace("_", r"\_")
     return text
+
 
 def build_readme(result):
     meta = result["metadata"]
@@ -693,7 +693,7 @@ def build_readme(result):
     if meta.get("procedimiento"):
         lines.append(f"- **Procedimiento:** {meta['procedimiento']}")
 
-    # Info rápida del audit log
+    # Quick summary info from audit log
     audit = result.get("audit_log", {}).get("summary", {})
     if audit:
         lines.append(f"- **Quality global:** {audit.get('global_quality_score', 0)} / 100")
@@ -703,22 +703,22 @@ def build_readme(result):
     lines.append("\n")
 
     for section in result["sections"]:
-        # Título de la sección tal cual (SENTENCIA Nº, ANTECEDENTES..., FUNDAMENTOS..., FALLO...)
+        # Section title as is (SENTENCIA Nº, ANTECEDENTES..., FUNDAMENTOS..., FALLO...)
         lines.append(f"## {section['title']}\n")
 
         if "subsections" in section:
-            # Para ANTECEDENTES y FUNDAMENTOS NO añadimos nada extra
-            # (nada de "Hechos", "RAZONAMIENTOS LEGALES", etc.)
+            # For ANTECEDENTES and FUNDAMENTOS we do NOT add anything else
+            # (no extra "Hechos", "RAZONAMIENTOS LEGALES", etc.)
             for sub in section["subsections"]:
                 header = ""
 
-                # Usamos SOLO el ordinal como título (PRIMERO., SEGUNDO., TERCERO., etc.)
+                # Use ONLY the ordinal as title (PRIMERO., SEGUNDO., TERCERO., etc.)
                 if sub.get("ordinal"):
                     header = f"{sub['ordinal']}."
 
-                # Si no hay ordinal pero sí heading, podríamos usarlo como título
-                # pero para evitar cosas raras, lo dejamos en blanco.
-                # Si quieres aprovecharlo:
+                # If there is no ordinal but there is a heading, we could use it as title
+                # but to avoid weird cases we leave it blank.
+                # If you want to use it:
                 # elif sub.get("heading"):
                 #     header = sub["heading"]
 
@@ -729,23 +729,24 @@ def build_readme(result):
                 lines.append(body + "\n")
 
         else:
-            # Secciones sin subsecciones (intro, fallo, advertencias, etc.)
+            # Sections without subsections (intro, fallo, warnings, etc.)
             body = sanitize_md_body(section.get("simplified_text", ""))
             lines.append(body + "\n")
 
     return "\n".join(lines)
 
+
 def escape_md_inline(text: str) -> str:
     """
-    Convierte **negrita** y *cursiva* de Markdown a <b>/<i>, 
-    pero evita que encabezados jurídicos como 'TERCERO.' 
-    pongan en negrita todo el párrafo.
+    Converts Markdown **bold** and *italic* into <b>/<i>,
+    but avoids making entire paragraphs bold when they start
+    with legal ordinal headings like 'TERCERO.'.
     """
 
     if not text:
         return ""
 
-    # 1) Detectar ordinales jurídicos al inicio ("TERCERO.", "PRIMERO.", etc.)
+    # 1) Detect legal ordinals at the beginning ("TERCERO.", "PRIMERO.", etc.)
     ordinal_match = re.match(
         r'^(PRIMERO|SEGUNDO|TERCERO|CUARTO|QUINTO|SEXTO|SÉPTIMO|SEPTIMO|OCTAVO|NOVENO|DÉCIMO|DECIMO)\.\s+(.*)$',
         text,
@@ -756,43 +757,44 @@ def escape_md_inline(text: str) -> str:
         ordinal = ordinal_match.group(1)
         rest = ordinal_match.group(2)
 
-        # Aplicar negrita SOLO al ordinal y no al resto
+        # Apply bold ONLY to the ordinal and not to the rest
         text = f"<b>{ordinal}.</b> {rest}"
 
-        # Escapar para evitar problemas con < > & excepto las etiquetas anteriores
+        # Escape to avoid problems with < > & except for the tags above
         text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
         text = text.replace("&lt;b&gt;", "<b>").replace("&lt;/b&gt;", "</b>")
         return text
 
-    # 2) Si no es un ordinal jurídico, aplicar transformación normal
+    # 2) If it is not a legal ordinal, apply normal transformation
 
-    # Negrita **texto**
+    # Bold **text**
     text = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", text)
 
-    # Cursiva *texto*
+    # Italic *text*
     text = re.sub(r"\*(.+?)\*", r"<i>\1</i>", text)
 
-    # Escapar caracteres peligrosos
+    # Escape dangerous characters
     text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
-    # Restaurar etiquetas válidas
+    # Restore valid tags
     text = text.replace("&lt;b&gt;", "<b>").replace("&lt;/b&gt;", "</b>")
     text = text.replace("&lt;i&gt;", "<i>").replace("&lt;/i&gt;", "</i>")
 
     return text
 
+
 def build_pdf_from_markdown(base_name: str, readme_text: str) -> None:
     """
-    Genera un PDF a partir del README en Markdown usando ReportLab.
-    Respeta títulos, negritas básicas y listas con un diseño sencillo.
-    No necesita wkhtmltopdf ni binarios externos.
+    Generates a PDF from the Markdown README using ReportLab.
+    Respects titles, basic bold text and lists with a simple layout.
+    Does not require wkhtmltopdf or external binaries.
     """
     folder = Path(OUTPUT_DIR) / base_name
     folder.mkdir(parents=True, exist_ok=True)
 
     pdf_path = folder / f"clarified_{base_name}.pdf"
 
-    # Estilos base
+    # Base styles
     styles = getSampleStyleSheet()
 
     style_title = ParagraphStyle(
@@ -886,13 +888,13 @@ def build_pdf_from_markdown(base_name: str, readme_text: str) -> None:
     for idx, raw_line in enumerate(lines):
         line = raw_line.rstrip("\n")
 
-        # Línea en blanco
+        # Blank line
         if not line.strip():
             flush_bullets()
             elements.append(Spacer(1, 6))
             continue
 
-        # Listas "- " o "* "
+        # Lists "- " or "* "
         if line.lstrip().startswith("- ") or line.lstrip().startswith("* "):
             content = line.lstrip()[2:]
             bullet_buffer.append(content)
@@ -900,7 +902,7 @@ def build_pdf_from_markdown(base_name: str, readme_text: str) -> None:
         else:
             flush_bullets()
 
-        # Encabezados Markdown
+        # Markdown headings
         if line.startswith("# "):
             text = escape_md_inline(line[2:].strip())
             if idx == 0:
@@ -917,15 +919,15 @@ def build_pdf_from_markdown(base_name: str, readme_text: str) -> None:
             text = escape_md_inline(line[5:].strip())
             elements.append(Paragraph(text, style_h3))
         else:
-            # Párrafo normal
+            # Normal paragraph
             text = escape_md_inline(line.strip())
             elements.append(Paragraph(text, style_body))
 
-    # Si quedan bullets al final, vaciarlos
+    # If there are remaining bullets at the end, flush them
     flush_bullets()
 
     doc.build(elements)
-    print(f"📄 PDF generado a partir del README (ReportLab): {pdf_path}")
+    print(f"📄 PDF generated from README (ReportLab): {pdf_path}")
 
 
 def save_outputs(base_name: str, json_data: dict, readme_text: str):
@@ -941,47 +943,46 @@ def save_outputs(base_name: str, json_data: dict, readme_text: str):
     with open(readme_path, "w", encoding="utf-8") as f:
         f.write(readme_text)
 
-    # Generar PDF a partir del README usando ReportLab
+    # Generate PDF from README using ReportLab
     build_pdf_from_markdown(base_name, readme_text)
 
-    print(f"\n💾 Archivos guardados en: {folder.absolute()}")
+    print(f"\n💾 Files saved in: {folder.absolute()}")
 
 
 def main():
     if len(sys.argv) < 2:
-        print("Uso: uv run python simplify_judgment.py archivo.pdf")
+        print("Usage: uv run python simplify_judgment.py file.pdf")
         sys.exit(1)
 
     pdf_path = Path(sys.argv[1])
     if not pdf_path.exists():
-        print(f"No existe: {pdf_path}")
+        print(f"Does not exist: {pdf_path}")
         sys.exit(1)
 
     base_name = pdf_path.stem
 
-    print(f"📄 Leyendo PDF: {pdf_path.name}")
+    print(f"📄 Reading PDF: {pdf_path.name}")
     text = load_pdf_text(pdf_path)
 
-    print("🔎 Parseando sentencia...")
+    print("🔎 Parsing judgment...")
     struct = parse_sentence_text(text, doc_id=base_name, source=str(pdf_path))
 
-    print("🧠 Inicializando RAG...")
+    print("🧠 Initializing RAG...")
     guide_ret, judgments_ret = init_rag()
 
-    print("🤖 Cargando Gemini...")
+    print("🤖 Loading Gemini...")
     model = init_model()
 
-    print("✍️ Simplificando y validando sentencia (con autoregeneración)...")
+    print("✍️ Simplifying and validating judgment (with autoregeneration)...")
     result_json = simplify_sentence_struct(model, guide_ret, judgments_ret, struct)
 
-    print("📄 Construyendo README...")
+    print("📄 Building README...")
     readme_md = build_readme(result_json)
 
-    print("💾 Guardando archivos...")
+    print("💾 Saving files...")
     save_outputs(base_name, result_json, readme_md)
 
-    print("\n🎉 Proceso completado correctamente.")
-
+    print("\n🎉 Process completed successfully.")
 
 if __name__ == "__main__":
     main()
