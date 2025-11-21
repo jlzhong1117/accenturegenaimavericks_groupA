@@ -1,124 +1,105 @@
-# README — Sistema de Simplificación y Validación de Sentencias en Lenguaje Claro
+# README — Sistema para Simplificar y Validar Sentencias Judiciales en Lenguaje Claro
 
-## 📌 Resumen del proyecto
+## 📌 Resumen del Proyecto
 
-Este proyecto implementa un sistema completo para **transformar sentencias judiciales en PDF** en una versión redactada en **lenguaje claro**, garantizando siempre que **no se altere el sentido jurídico** del texto original.
+Este proyecto implementa un sistema completo que transforma sentencias judiciales en formato PDF a una versión redactada en lenguaje claro y accesible, garantizando que el significado jurídico del texto original se preserve al 100 %.
 
-El resultado final incluye:
+El pipeline genera automáticamente:
 
-* Una sentencia **reescrita en lenguaje claro**.
-* Una **validación automática** del espíritu de la norma.
-* Un **informe de auditoría** con riesgos, calidad y trazabilidad.
-* Generación de **JSON estructurado**, **README.md** y **PDF final** útil para revisión judicial.
+- Una sentencia reescrita en lenguaje llano  
+- Una validación automática del espíritu de la norma  
+- Un informe completo de auditoría (riesgo, puntuación de calidad, intentos de regeneración)  
+- Tres entregables finales:
 
-El objetivo es acercar el contenido jurídico a ciudadanos y profesionales sin formación legal, **sin comprometer la fidelidad jurídica**.
+```
+resultado.json               → datos estructurados + registro de auditoría
+README.md                    → versión en lenguaje claro de la sentencia
+clarified_<nombre>.pdf       → PDF maquetado y listo para publicar
+```
 
----
+El objetivo es que las resoluciones judiciales sean comprensibles para la ciudadanía y personas no expertas sin perder rigor jurídico.
 
-# 🧩 Arquitectura conceptual del proyecto
+# 🧩 Arquitectura de Alto Nivel
 
-El proyecto combina tres elementos principales:
+El proyecto combina tres grandes componentes:
 
-1. **Un parser** que transforma el PDF en una estructura lógica.
-2. **Un sistema RAG** que proporciona contexto jurídico real.
-3. **Un sistema multi-agente de IA** encargado de reescritura, validación y autocorrección.
+1. Un parser jurídico que convierte el PDF en una representación estructurada  
+2. Un sistema RAG que aporta contexto jurídico real  
+3. Un pipeline multi-agente con LLM que reescribe, valida y se autocorrige
 
----
+# 🔍 1. Parseo Jurídico de la Sentencia
 
-# 🔍 1. Parseo jurídico de la sentencia
+Antes de cualquier procesamiento de IA, el PDF se convierte en un formato estructurado que refleja la lógica interna de una resolución judicial:
 
-Antes de procesar cualquier fragmento, la sentencia en PDF se transforma en una estructura organizada:
+- Metadatos: tribunal, fecha, tipo de procedimiento, número ROJ…  
+- Secciones legales:  
+  - Encabezamiento  
+  - Antecedentes de Hecho  
+  - Fundamentos de Derecho  
+  - Fallo  
+- Subsecciones con ordinales jurídicos (PRIMERO, SEGUNDO, TERCERO…)  
+- Fragmentos de texto (chunks)
 
-* **Metadatos**: órgano, fecha, procedimiento...
-* **Secciones jurídicas**:
+Esta estructura permite el procesamiento fragmento por fragmento y una alineación precisa entre original y versión simplificada.
 
-  * Encabezado
-  * Antecedentes de Hecho
-  * Fundamentos de Derecho
-  * Fallo
-* **Subsecciones** con ordinales (PRIMERO, SEGUNDO, TERCERO…)
-* **Fragmentos (chunks)** de texto
+# 🧠 2. RAG — Generación Aumentada por Recuperación
 
-Esta estructura permite:
+### ❓ ¿Por qué es esencial el RAG?
 
-* Procesar cada parte por separado
-* Evitar mezclar razonamientos
-* Combinar precisión jurídica con claridad textual
+Un LLM aislado no puede reproducir de forma fiable:
+- estándares de redacción judicial
+- criterios de claridad
+- estructura típica del razonamiento judicial
+- terminología y estilo del poder judicial español
 
----
+El RAG lo soluciona aportando contexto externo autorizado.
 
-# 🧠 2. RAG — Retrieval Augmented Generation
+## 📚 Fuentes de Conocimiento del RAG
 
-### ❓ ¿Por qué es necesario?
-
-Un modelo de lenguaje por sí solo no siempre replica criterios jurídicos oficiales ni conoce patrones reales de redacción judicial.
-
-Para asegurar coherencia, calidad y precisión, usamos un **RAG** como memoria jurídica externa.
-
----
-
-## 📚 Fuentes que utiliza el RAG
-
-### **1) Guía de Lenguaje Claro del Poder Judicial**
-
-Almacenada en `chroma_guide/`.
-
-Incluye:
-
-* Reglas de claridad
-* Estilo judicial recomendado
-* Correcciones frecuentes (mayusculismo, frases largas…)
-* Ejemplos de buena redacción
-
-### **2) Sentencias reales**
-
-Almacenadas en `chroma_judgments/`.
+### 1) Guía Oficial de Lenguaje Claro Judicial
+Almacenada en `chroma_guide/`
 
 Aporta:
+- principios de claridad y simplificación
+- estilo judicial correcto
+- correcciones habituales (mayúsculas, frases largas, jerga)
+- ejemplos de buenas prácticas
 
-* Estructuras reales
-* Forma jurídica correcta
-* Ejemplos prácticos de simplificación
+### 2) Sentencias judiciales reales
+Almacenadas en `chroma_judgments/`
 
----
+Aportan:
+- ejemplos de sentencias bien redactadas
+- estructuras y tono reales
+- guía adicional de coherencia
 
-## 🔎 ¿Cómo funciona el RAG?
+## 🔎 Funcionamiento del RAG en el Pipeline
 
 Para cada fragmento de la sentencia:
+1. Se genera una consulta a partir del texto original  
+2. Dos bases vectoriales recuperan fragmentos relevantes:  
+   - extractos de la guía de lenguaje claro  
+   - extractos de sentencias reales  
+3. Se combinan en un bloque de contexto  
+4. El LLM reescribe el fragmento utilizando ese contexto
 
-1. Se genera una **consulta** basada en el texto original.
-2. Los vector stores devuelven **los fragmentos más relevantes** de:
+→ Reduce alucinaciones  
+→ Mejora la precisión jurídica  
+→ Garantiza coherencia estilística
 
-   * la guía de lenguaje claro
-   * otras sentencias judiciales
-3. Ese material se inserta como **contexto directo** en la llamada al LLM.
-4. El LLM reescribe el texto siguiendo **criterios reales y documentados**, reduciendo errores y alucinaciones.
+# 🤖 3. Sistema Multi-Agente con LLM
 
-> El RAG no es opcional: es el componente que garantiza que la IA no inventa, no se desvía y redacta como lo haría un profesional del derecho en lenguaje claro.
+El pipeline no usa un único modelo, sino dos agentes especializados que simulan el flujo real de un juzgado: un redactor y un auditor.
 
----
+## 🟦 Agente 1 — Redactor en Lenguaje Claro (El Redactor Judicial)
 
-# 🤖 3. Sistema de Agentes LLM
+Responsable de:
+- Reescribir en lenguaje claro, estructurado y accesible
+- Mantener la precisión jurídica
+- Identificar problemas de redacción del original
+- Generar un registro detallado de cambios
 
-El proyecto no usa un único modelo “mágico”, sino un **sistema multi-agente**, donde cada agente tiene un rol bien definido.
-
-Esto imita un flujo de trabajo judicial real: un redactor y un auditor.
-
----
-
-## 🟦 Agente 1 — Simplificador en Lenguaje Claro
-
-*(El Escritor Judicial)*
-
-Este agente se encarga de:
-
-* Reescribir el texto jurídico en versiones **claras, ordenadas y comprensibles**.
-* Mantener la **precisión jurídica**.
-* Identificar malas prácticas del texto original.
-* Explicar los cambios (change_log).
-
-Produce un JSON estructurado:
-
+Salida:
 ```json
 {
   "simplified_text": "...",
@@ -127,24 +108,15 @@ Produce un JSON estructurado:
 }
 ```
 
----
+## 🟥 Agente 2 — Validador del Espíritu de la Norma (El Auditor Jurídico)
 
-## 🟥 Agente 2 — Validador del Espíritu de la Norma
+Compara original ↔ simplificado y detecta:
+- cambios de significado
+- alteración de partes, fechas, cuantías, plazos
+- adiciones u omisiones de efectos jurídicos
+- desviaciones de tono que afecten la interpretación
 
-*(El Auditor Jurídico)*
-
-Este agente compara:
-
-* Texto original vs texto simplificado
-
-Y determina:
-
-* Si el sentido jurídico se mantiene intacto.
-* Si se han cambiado datos relevantes.
-* Si hay riesgo de interpretación incorrecta.
-
-Produce:
-
+Salida:
 ```json
 {
   "spirit_respected": true/false,
@@ -153,155 +125,92 @@ Produce:
 }
 ```
 
-Es crítico, estricto y no reescribe, solo evalúa.
+Es estrictamente conservador y solo valida, nunca reescribe.
 
----
+# 🔁 4. Mecanismo de Autorregeneración (Correcciones Automáticas)
 
-# 🔁 4. Autoregeneración — Un sistema autocorrectivo
+El sistema incluye un bucle inteligente de autocorrección:
+1. El redactor genera una versión  
+2. El auditor detecta riesgos  
+3. Se generan pistas de regeneración detalladas  
+4. El redactor produce una nueva versión  
+5. El auditor reevalúa
 
-El pipeline incorpora un mecanismo de **auto-mejora**:
+Hasta 3 intentos automáticos.
 
-1. El LLM reescribe.
-2. El auditor detecta fallos.
-3. Se generan instrucciones adicionales explicando qué corregir.
-4. El LLM reescribe otra versión.
-5. Se vuelve a validar.
+Si sigue sin ser seguro → el fragmento se marca ALTO RIESGO y requiere revisión humana.
 
-Hasta un máximo de **3 iteraciones**.
+# 📊 5. Puntuación de Calidad y Sistema de Auditoría
 
-Si aun así persisten errores:
+Cada fragmento recibe una puntuación de 0–100 según:
+- respeto del significado jurídico
+- nivel de riesgo
+- problemas detectados
+- número de regeneraciones necesarias
 
-* El fragmento se marca como **HIGH RISK**.
-* Se requiere revisión humana.
+Se calcula también una puntuación global de la sentencia.
 
-Este mecanismo hace al sistema:
+El archivo `resultado.json` contiene trazabilidad completa:
+- decisiones tomadas
+- fragmentos de riesgo medio/alto
+- número de intentos
+- modelo utilizado (principal o fallback)
 
-* más robusto
-* más seguro
-* más fiable
-* y más alineado con procesos jurídicos reales
+# 📄 6. Entregables Finales
 
----
-
-# 📊 5. Auditoría y Quality Score
-
-Cada fragmento obtiene una puntuación automática basada en:
-
-* Respeto del espíritu de la norma
-* Riesgo detectado
-* Divergencias señaladas
-* Nº de autocorrecciones necesarias
-* Limpieza y coherencia del texto final
-
-La media global produce un **quality score de la sentencia**.
-
-Además, se generan logs para rastrear:
-
-* Qué fragmentos han sido problemáticos
-* Cuántos intentos se han necesitado
-* Qué modelo LLM ha intervenido (principal o fallback)
-
-Todo queda registrado en `resultado.json`.
-
----
-
-# 📄 6. Resultados finales
-
-Tras procesar una sentencia PDF, se genera:
+Tras ejecutar el pipeline se genera:
 
 ```
 outputs/<ID_SENTENCIA>/
-  ├── resultado.json           → auditoría completa del pipeline
-  ├── README.md                → sentencia simplificada en lenguaje claro
-  └── clarified_<ID>.pdf       → versión PDF lista para entregar
+  ├── resultado.json           → auditoría completa + resultados estructurados
+  ├── README.md                → sentencia reescrita en lenguaje claro
+  └── clarified_<ID>.pdf       → PDF maquetado generado a partir del README
 ```
 
-La versión PDF se maqueta automáticamente a partir del README simplificado.
+# 📁 7. Estructura del Repositorio
 
----
+- **Raíz**:
+  - `README.md` – esta documentación
+  - `simplify_judgment.py` – ejecución por línea de comandos
+  - `streamlit_app.py` – interfaz gráfica con Streamlit
+  - `.env` – claves API (no versionado)
+
+- `chroma_guide/` – base vectorial de la guía oficial de lenguaje claro
+- `chroma_judgments/` – base vectorial de sentencias reales
+- `outputs/` – carpeta con resultados (una subcarpeta por sentencia procesada)
 
 # 🎯 Conclusión
 
 Este proyecto combina:
+- Estructuración avanzada de documentos jurídicos
+- RAG con fuentes autorizadas reales
+- Pipeline multi-agente con LLM
+- Validación del espíritu de la norma y detección de riesgo
+- Autocorrección automática
+- Auditoría y trazabilidad completas
 
-### ✔ Procesamiento jurídico estructurado
+El resultado es un sistema fiable y auditable capaz de convertir sentencias judiciales complejas en textos claros y accesibles sin comprometer la precisión jurídica, listo para despliegues reales en la Administración de Justicia.
 
-### ✔ RAG con fuentes reales
+# 🧪 Ejecución Local con UV
 
-### ✔ Agentes especializados que cooperan
+1. Instalar uv: `pip install uv`
+2. Crear entorno: `uv venv`
+3. Activar:
+   - Unix: `source .venv/bin/activate`
+   - Windows: `.venv\Scripts\activate`
+4. Instalar dependencias: `uv sync`
+5. Ejecutar: `uv run python simplify_judgment.py archivo.pdf`
 
-### ✔ Validación automática de riesgo
+# 🌐 Ejecución con Interfaz Streamlit (Recomendado)
 
-### ✔ Autocorrección inteligente
+1. Añadir tu clave en `.env`:
+   ```
+   GOOGLE_API_KEY=tu_clave_aquí
+   ```
+2. Lanzar la interfaz:
+   ```
+   streamlit run streamlit_app.py
+   ```
+3. Subir PDF → “Simplificar Documento” → Descargar PDF y JSON generados
 
-### ✔ Auditoría completa y trazabilidad
-
-El resultado es un sistema sólido, fiable y explicable que transforma textos jurídicos complejos en versiones claras **sin perder precisión legal**, algo esencial en proyectos reales de IA aplicada a justicia.
-
----
-
-# 🧪 Ejecutar localmente con UV
-
-## 1. Instalar uv
-
-```bash
-pip install uv
-```
-
-## 2. Crear el entorno
-
-```bash
-uv create venv
-```
-
-## 3. Activar el entorno
-
-```bash
-.venv\Scripts\activate
-```
-
-## 4. Instalar dependencias
-
-```bash
-uv sync
-```
-
-## 5. Ejecutar el pipeline de simplificación manualmente
-
-```bash
-uv run python simplify_judgment.py file.pdf
-```
-
-Replace `file.pdf` with your judgment.
-
----
-
-# 🌐 Ejecutar el sistema desde Streamlit (Interfaz recomendada)
-
-Proporcionamos una interfaz sencilla para subir un PDF y obtener:
-
-* Markdown simplificado
-* PDF aclarado descargable
-* JSON descargable
-
-## 1. Asegúrate de que `.env` contiene tu clave API
-
-```
-GOOGLE_API_KEY=your_key_here
-```
-
-## 2. Lanzar la aplicación Streamlit
-
-Ejecuta este comando en la raíz del proyecto:
-
-```bash
-streamlit run streamlit_app.py
-```
-
-## 3. Usar la interfaz
-
-* Sube un **PDF de la sentencia**
-* Haz clic en **“Simplificar Documento”**
-* Descarga el **PDF y JSON** generados automáticamente
-
-
+¡Listo! El sistema procesará automáticamente la sentencia y entregará los tres archivos finales.
